@@ -23,6 +23,7 @@ class _LoginUserState extends State<LoginUser> {
               children: [Image.asset('assets/images/logo.png')]),
         ),
         const Text("proceed with your"),
+        const SizedBox(height: 5),
         const Text(
           "login",
           style: TextStyle(fontWeight: FontWeight.bold),
