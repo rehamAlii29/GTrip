@@ -12,6 +12,7 @@ class _LoginUserState extends State<LoginUser> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
           width: MediaQuery.of(context).size.width,
@@ -21,6 +22,11 @@ class _LoginUserState extends State<LoginUser> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [Image.asset('assets/images/logo.png')]),
         ),
+        const Text("proceed with your"),
+        const Text(
+          "login",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        )
       ],
     ));
   }
