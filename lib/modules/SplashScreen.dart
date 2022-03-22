@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// need editting
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -8,71 +9,90 @@ class SplashScreen extends StatelessWidget {
     double heightOfTheScreen = MediaQuery.of(context).size.height;
     double widthOfTheScreen = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(0),
-        child: Column(
-          children: [
-            Stack(
-              alignment: AlignmentDirectional.center,
+      body: Column(
+        children: [
+          // top part
+          Expanded(
+            child: Stack(
+              alignment: AlignmentDirectional.bottomCenter,
               children: [
-                SizedBox(
-                  //   height: 300,
-                  width: widthOfTheScreen,
-                  child: Image.asset(
-                    'assets/images/Vector1.png',
-                    // height: 500,
-                    // width: double.infinity,
-                    // fit: BoxFit.,
-                  ),
-                )
-                /* Container(
-                    height: heightOfTheScreen * .5,
+                Container(
+                    //  height: heightOfTheScreen * .6,
                     width: widthOfTheScreen,
                     decoration: const BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage('assets/images/Vector1.png'),
                             fit: BoxFit.fill))),
-                Container(
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('assets/images/logo.png'),
-                            fit: BoxFit.fill))),*/
-
-                /*    Image.asset(
-                  'assets/images/Vector1.png',
-                  height: 500,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Text(
-                      "GTrip",
-                      style: TextStyle(color: Colors.white),
+                    Container(
+                      child: const Text(
+                        "GTrip",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
-                    Image.asset(
-                      'assets/images/logo.png',
-                      width: 60,
-                      height: 60,
-                      // width: double.infinity,
-                      //  fit: BoxFit.cover,
-                    ),
+                    Container(
+                        height: 50,
+                        width: 50,
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage('assets/images/logo.png'),
+                                fit: BoxFit.fill))),
                   ],
-                ),*/
+                ),
               ],
             ),
-            /* Row(
+          ),
+          //center part
+          SizedBox(
+            width: widthOfTheScreen,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset('assets/images/car.png'),
-                Image.asset('assets/images/box.png'),
-                Image.asset('assets/images/person.png')
+                Stack(
+                  alignment: AlignmentDirectional.bottomCenter,
+                  fit: StackFit.loose,
+                  children: [
+                    Expanded(child: Image.asset('assets/images/car.png')),
+                    Stack(
+                      alignment: AlignmentDirectional.bottomEnd,
+                      children: [
+                        Image.asset('assets/images/person.png'),
+                        Image.asset('assets/images/box.png')
+                      ],
+                    )
+                  ],
+                ),
               ],
-            )*/
-          ],
-        ),
+            ),
+          ),
+          // bottom part
+          Expanded(
+            child: Stack(
+              alignment: AlignmentDirectional.bottomEnd,
+              children: [
+                Container(
+                    //  height: heightOfTheScreen * .5,
+                    width: widthOfTheScreen,
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('assets/images/Vector 2.png'),
+                            fit: BoxFit.fill))),
+                MaterialButton(
+                    onPressed: () {},
+                    color: const Color.fromARGB(255, 218, 23, 9),
+                    child: const Text("Get Started"),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)))
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
