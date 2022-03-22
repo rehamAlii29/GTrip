@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:gtrip/modules/SplashScreen.dart';
 
 void main() {
   runApp(const GTrip());
@@ -9,6 +11,13 @@ class GTrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: const SplashScreen(),
+      theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
+          appBarTheme:
+              const AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle())),
+    );
   }
 }
