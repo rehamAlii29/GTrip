@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gtrip/LoginUser.dart';
 import 'package:gtrip/modules/SplashScreen.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class GTrip extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
+      home: const LoginUser(),
       theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
           appBarTheme:

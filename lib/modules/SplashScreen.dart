@@ -86,7 +86,8 @@ class SplashScreen extends StatelessWidget {
                 MaterialButton(
                     onPressed: () {},
                     color: const Color.fromARGB(255, 218, 23, 9),
-                    child: const Text("Get Started"),
+                    child: const Text("Get Started",
+                        style: TextStyle(color: Colors.white)),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0)))
               ],
