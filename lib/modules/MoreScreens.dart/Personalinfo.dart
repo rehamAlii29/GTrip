@@ -19,7 +19,20 @@ class _PersonalInfoState extends State<PersonalInfo> {
     return  BlocConsumer<AppCubit, AppStates>(
         listener: (context, state){},
         builder: (context, state) {
-          return  Scaffold();
+          return  Scaffold(
+            body: Column(children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height*.3,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage('assets/images/Vector4.png')
+                  )
+                ),
+              ),
+            ],),
+          );
 
     }
     );

@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gtrip/AppCubit.dart';
 import 'package:gtrip/AppStates.dart';
+import 'package:gtrip/modules/MoreScreens.dart/Personalinfo.dart';
 import 'package:gtrip/modules/UserRegister.dart';
 import 'package:flutter_remix/flutter_remix.dart' ;
+import 'package:motion_toast/motion_toast.dart';
+import 'package:motion_toast/resources/arrays.dart';
 
 class LoginUser extends StatefulWidget {
   const LoginUser({Key? key}) : super(key: key);
@@ -19,11 +22,28 @@ AppCubit? appCubit ;
 class _LoginUserState extends State<LoginUser> {
   @override
   Widget build(BuildContext context) {
-    return  BlocConsumer<AppCubit, AppStates>( listener: (context, state){},builder: (context, state) {
+    return  BlocConsumer<AppCubit, AppStates>( listener: (context, state){
+      if(AppStates is GoogleSignInSuccessState)
+        {
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>PersonalInfo()));
+        }
+      if (AppStates is GoogleSignInErrorState){
+        MotionToast.warning(
+          description: Text("Check your NetWork"),
+          borderRadius: 5,
+          title: Text("Login Error",
+          style: TextStyle(
+              fontWeight: FontWeight.bold
+          ),),
+          iconType: ICON_TYPE.materialDesign,
+        ).show(context);
+      }
+    },builder: (context, state) {
       appCubit = BlocProvider.of<AppCubit>(context);
       return Scaffold(
+
           body: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
 
@@ -53,6 +73,15 @@ class _LoginUserState extends State<LoginUser> {
                         const Text('username / email'),
                         TextFormField(
                             controller: emailController,
+                            keyboardType: TextInputType.emailAddress,
+                            validator: (value){
+                              if (value!.isEmpty)
+                              {
+                                return "E-mail or UserName Cant be Empty";
+                              }
+                              else
+                                return null;
+                            },
                             decoration: const InputDecoration(
                                 hintText: "Duran0124r", suffixIcon: Icon(FlutterRemix.account_box_line,
 
@@ -61,8 +90,26 @@ class _LoginUserState extends State<LoginUser> {
                         const Text('password'),
                         TextFormField(
                             controller: passwordController,
-                            decoration: const InputDecoration(
-                                hintText: "************", suffixIcon: Icon(Icons.key))),
+
+                            obscureText: appCubit!.obsecured,
+                            keyboardType: TextInputType.visiblePassword,
+                            validator: (value){
+                              if (value!.isEmpty)
+                                {
+                                  return "Password Cant be Empty";
+                                }
+                              else
+                                return null;
+                            },
+                            decoration:  InputDecoration(
+                                hintText: "************",
+
+                                suffix: IconButton(onPressed:(){
+                                  appCubit!.showAndHidePasswordFunc();
+                                  print(appCubit!.obsecured);
+                                },
+                                    icon: Icon(appCubit!.passwordIcon)),
+                                suffixIcon: Icon(Icons.key))),
                         const SizedBox(height: 20,),
                         Row(children:  [
                           const Expanded(child: Text("Remember me")),
@@ -76,7 +123,11 @@ class _LoginUserState extends State<LoginUser> {
 
                           child: MaterialButton(child: const Text("Login",
                             style: TextStyle(color: Colors.white),
-                          ), onPressed: (){},
+                          ), onPressed: (){
+                            formKey.currentState!.validate();
+                            // lessa ha check 3al user lma a3mlha
+
+                          },
                             color: Colors.cyan[700]
                             ,
                             shape: RoundedRectangleBorder(
