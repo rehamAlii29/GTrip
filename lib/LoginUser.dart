@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LoginUser extends StatefulWidget {
@@ -51,13 +52,28 @@ class _LoginUserState extends State<LoginUser> {
                 controller: passwordController,
                   decoration: const InputDecoration(
                       hintText: "************", suffixIcon: Icon(Icons.key_off))),
-              Row(children: const [
-                Expanded(child: Text("Remember me")),
+              const SizedBox(height: 20,),
+              Row(children:  [
+                const Expanded(child: const Text("Remember me")),
+                CupertinoSwitch(value: true, onChanged: (value){
+                  value=false;
+                }),
 
+              ],),
+              const SizedBox(height: 25,),
+              Container( width: MediaQuery.of(context).size.width,
 
-
-              ],)
-
+                child: MaterialButton(child: Text("Login",
+                  style: TextStyle(color: Colors.white),
+                ), onPressed: (){},
+                color: Colors.cyan[700]
+                  ,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)
+                  ),
+                  
+                ),
+              )
             ],
           ))
         ],
