@@ -45,12 +45,18 @@ class _LoginUserState extends State<LoginUser> {
                 controller: emailController,
                   decoration: const InputDecoration(
                       hintText: "Duran0124r", suffixIcon: Icon(Icons.person))),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               const Text('password'),
               TextFormField(
                 controller: passwordController,
                   decoration: const InputDecoration(
                       hintText: "************", suffixIcon: Icon(Icons.key_off))),
+              Row(children: const [
+                Expanded(child: Text("Remember me")),
+
+
+
+              ],)
 
             ],
           ))
