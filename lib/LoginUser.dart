@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gtrip/modules/UserRegister.dart';
+import 'package:flutter_remix/flutter_remix.dart' ;
 
 class LoginUser extends StatefulWidget {
   const LoginUser({Key? key}) : super(key: key);
@@ -47,13 +48,15 @@ class _LoginUserState extends State<LoginUser> {
               TextFormField(
                 controller: emailController,
                   decoration: const InputDecoration(
-                      hintText: "Duran0124r", suffixIcon: Icon(Icons.person))),
+                      hintText: "Duran0124r", suffixIcon: Icon(FlutterRemix.account_box_line,
+
+                  ))),
               const SizedBox(height: 20,),
               const Text('password'),
               TextFormField(
                 controller: passwordController,
                   decoration: const InputDecoration(
-                      hintText: "************", suffixIcon: Icon(Icons.key_off))),
+                      hintText: "************", suffixIcon: Icon(Icons.key))),
               const SizedBox(height: 20,),
               Row(children:  [
                 const Expanded(child: const Text("Remember me")),
@@ -94,6 +97,9 @@ class _LoginUserState extends State<LoginUser> {
               }, child: Text("Sign Up",
                   style: TextStyle(color: Colors.black))),
             ],),
+SizedBox(
+  height: 20,
+),
 Expanded(child: Column(
   crossAxisAlignment: CrossAxisAlignment.center,
   children: [
@@ -104,6 +110,10 @@ Expanded(child: Column(
     ],
   ),
 // lessa goz2 el social sign in
+  
+  MaterialButton(onPressed: (){},
+    child: Image.asset('assets/images/google.png', width: 50, height: 50,),
+  )
 ],))
         ],
       ),
