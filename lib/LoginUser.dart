@@ -6,7 +6,9 @@ class LoginUser extends StatefulWidget {
   @override
   State<LoginUser> createState() => _LoginUserState();
 }
-
+var formKey= GlobalKey<FormState>();
+var emailController= TextEditingController();
+var passwordController= TextEditingController();
 class _LoginUserState extends State<LoginUser> {
   @override
   Widget build(BuildContext context) {
@@ -34,13 +36,22 @@ class _LoginUserState extends State<LoginUser> {
             height: 20,
           ),
           Form(
+            key: formKey,
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('username / email'),
               TextFormField(
+                controller: emailController,
                   decoration: const InputDecoration(
                       hintText: "Duran0124r", suffixIcon: Icon(Icons.person))),
+              SizedBox(height: 20,),
+              const Text('password'),
+              TextFormField(
+                controller: passwordController,
+                  decoration: const InputDecoration(
+                      hintText: "************", suffixIcon: Icon(Icons.key_off))),
+
             ],
           ))
         ],
