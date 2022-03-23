@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gtrip/modules/UserRegister.dart';
 
 class LoginUser extends StatefulWidget {
   const LoginUser({Key? key}) : super(key: key);
@@ -18,6 +19,7 @@ class _LoginUserState extends State<LoginUser> {
       padding: const EdgeInsets.all(20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+
         children: [
           SizedBox(
             width: MediaQuery.of(context).size.width,
@@ -71,11 +73,38 @@ class _LoginUserState extends State<LoginUser> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)
                   ),
-                  
+
                 ),
-              )
+              ),
+              SizedBox(height: 5,),
+
+
             ],
-          ))
+          )),
+          Row( mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton(onPressed: (){}, child: Text("Forget password?",
+                style: TextStyle(color: Colors.black,
+                    fontWeight: FontWeight.w300
+                ),
+              )),
+              SizedBox(width: 5,),
+              TextButton(onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> UserRegister()));
+              }, child: Text("Sign Up",
+                  style: TextStyle(color: Colors.black))),
+            ],),
+Expanded(child: Column(
+  crossAxisAlignment: CrossAxisAlignment.center,
+  children: [
+  Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Text("Login with"),
+    ],
+  ),
+// lessa goz2 el social sign in
+],))
         ],
       ),
     ));
