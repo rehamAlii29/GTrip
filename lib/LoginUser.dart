@@ -25,13 +25,13 @@ class _LoginUserState extends State<LoginUser> {
     return  BlocConsumer<AppCubit, AppStates>( listener: (context, state){
       if(AppStates is GoogleSignInSuccessState)
         {
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>PersonalInfo()));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const PersonalInfo()));
         }
       if (AppStates is GoogleSignInErrorState){
         MotionToast.warning(
-          description: Text("Check your NetWork"),
+          description: const Text("Check your NetWork"),
           borderRadius: 5,
-          title: Text("Login Error",
+          title: const Text("Login Error",
           style: TextStyle(
               fontWeight: FontWeight.bold
           ),),
@@ -110,7 +110,7 @@ class _LoginUserState extends State<LoginUser> {
                                       print(appCubit!.obsecured);
                                     },
                                         icon: Icon(appCubit!.passwordIcon)),
-                                    suffixIcon: Icon(Icons.key))),
+                                    suffixIcon: const Icon(Icons.key))),
                             const SizedBox(height: 20,),
                             Row(children:  [
                               const Expanded(child: Text("Remember me")),
@@ -144,6 +144,7 @@ class _LoginUserState extends State<LoginUser> {
                         )),
                     Row( mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+
                         TextButton(onPressed: (){}, child: const Text("Forget password?",
                           style: TextStyle(color: Colors.black,
                               fontWeight: FontWeight.w300
@@ -158,45 +159,43 @@ class _LoginUserState extends State<LoginUser> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    const Text("Login with"),
+                    SizedBox(height: 20,),
+                    Row(
+                      mainAxisAlignment:  MainAxisAlignment.center,
+
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text("Login with"),
-                          ],
+
+                        GestureDetector(
+                          child:  const Image(image: const AssetImage('assets/images/google.png'),
+                            width: 50,height: 50,
+                          ) ,
+                          onTap: (){  appCubit!.googleSignInFunction(context);},
+                        ),
+                        SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  const Image(image: const AssetImage('assets/images/github.png'),
+                            width: 50,height: 50,
+                          ) ,
+                          onTap: (){  //appCubit!.googleSignInFunction(context);
+                            },
+                        ),
+                        SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  const Image(image: const AssetImage('assets/images/twitter.png'),
+                            width: 50,height: 50,
+                          ) ,
+                          onTap: (){  },
+                        ),
+                        SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  const Image(image: const AssetImage('assets/images/facebook.png'),
+                            width: 50,height: 50,
+                          ) ,
+                          onTap: (){  appCubit!.signInWithFacebook();},
                         ),
 
-                        Row( mainAxisAlignment:  MainAxisAlignment.center,
 
-                          children: [
-                            MaterialButton(onPressed: (){
-                              appCubit!.googleSignInFunction(context);
-
-                            },
-                              child : const Image(image: AssetImage('assets/images/google.png'),
-                                width: 100,height: 100,
-                              ) ,
-                            ),
-
-                            MaterialButton(onPressed: (){
-
-                            },
-                              child : const Image(image: AssetImage('assets/images/github.png'),
-                                width: 100,height: 100,
-                              ) ,
-                            ),
-                            MaterialButton(onPressed: (){
-                              appCubit!.signInWithFacebook();
-                            },
-                              child : const Image(image: AssetImage('assets/images/facebook.png'),
-                                width: 100 ,height: 100,
-                              ) ,
-                            ),
-
-
-                          ],)
 
                       ],)],),
                 ),
