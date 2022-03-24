@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gtrip/AppCubit.dart';
 import 'package:gtrip/AppStates.dart';
-import 'package:gtrip/LoginUser.dart';
+import 'package:gtrip/modules/LoginUser.dart';
 import 'package:gtrip/modules/SplashScreen.dart';
 
 void main() async{

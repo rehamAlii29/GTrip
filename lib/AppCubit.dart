@@ -11,75 +11,78 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:gtrip/AppStates.dart';
 
 
-class AppCubit extends Cubit<AppStates>{
+class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(InitialState());
-  static AppCubit get(context)=> BlocProvider.of(context);
+
+  static AppCubit get(context) => BlocProvider.of(context);
+
   // show and hide password
   bool obsecured = true;
-  IconData passwordIcon= Icons.remove_red_eye ;
+  IconData passwordIcon = Icons.remove_red_eye;
 
-  showAndHidePasswordFunc( ){
+  showAndHidePasswordFunc() {
     obsecured = !obsecured;
-    if (obsecured == true){
-      passwordIcon= Icons.remove_red_eye;
+    if (obsecured == true) {
+      passwordIcon = Icons.remove_red_eye;
       emit(ShowAndHidePassword());
     }
     else {
       passwordIcon = Icons.remove_red_eye_outlined;
       emit(ShowAndHidePassword());
     }
+  }
 
-      }
 // Remember Me Select
-  rememberMeFunction(){
+  bool rememberMeChecked= false;
+  rememberMeFunction() {
+    rememberMeChecked = !rememberMeChecked;
+    emit(RememberMeCheked());
 
   }
 
   // firebaseAuth
   final FirebaseAuth auth = FirebaseAuth.instance;
+
   // googleSignin
- Future<void> googleSignInFunction(BuildContext context) async{
-   final GoogleSignIn googleSignIn= GoogleSignIn();
-   final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
-   if(googleSignInAccount != null)
-     {
-       final GoogleSignInAuthentication googleSignInAuthentication= await googleSignInAccount.authentication;
-       final AuthCredential authCredential = GoogleAuthProvider.credential(
-         idToken: googleSignInAuthentication.idToken,
-         accessToken: googleSignInAuthentication.accessToken
-       );
-       UserCredential result = await auth.signInWithCredential(authCredential);
-       User? googleuser= result.user;
-       print(googleuser!.email);
-emit(GoogleSignInSuccessState());
-     }
-   else
-     emit(GoogleSignInErrorState());
+  Future<void> googleSignInFunction(BuildContext context) async {
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+    final GoogleSignInAccount? googleSignInAccount = await googleSignIn
+        .signIn();
+    if (googleSignInAccount != null) {
+      final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount
+          .authentication;
+      final AuthCredential authCredential = GoogleAuthProvider.credential(
+          idToken: googleSignInAuthentication.idToken,
+          accessToken: googleSignInAuthentication.accessToken
+      );
+      UserCredential result = await auth.signInWithCredential(authCredential);
+      User? googleuser = result.user;
+      print(googleuser!.email);
+      emit(GoogleSignInSuccessState());
+    }
+    else
+      emit(GoogleSignInErrorState());
   }
 
 
   // login with gihub lessa >_<
 // login with facebook
-Future<void> signInWithFacebook() async {
+  Future<void> signInWithFacebook() async {
+    final LoginResult result = await FacebookAuth.instance.login();
 
-      final LoginResult result = await FacebookAuth.instance.login();
+    final AuthCredential facebookCredential =
+    FacebookAuthProvider.credential(result.accessToken!.token);
+    print(facebookCredential.token);
 
-          final AuthCredential facebookCredential =
-          FacebookAuthProvider.credential(result.accessToken!.token);
-          print( facebookCredential.token);
-
-           auth.signInWithCredential(facebookCredential).then((value) {
-             print(value.user!.displayName);
-             print(value.user!.phoneNumber);
-             print(value.user!.photoURL);
-             emit(FacebookSignInSuccessState());
-           }).catchError((onError){
-emit(FacebookSignInErrorState(onError.toString()));
-           });
-
-
+    auth.signInWithCredential(facebookCredential).then((value) {
+      print(value.user!.displayName);
+      print(value.user!.phoneNumber);
+      print(value.user!.photoURL);
+      emit(FacebookSignInSuccessState());
+    }).catchError((onError) {
+      emit(FacebookSignInErrorState(onError.toString()));
+    });
   }
-
-
+//trying github
 
 }

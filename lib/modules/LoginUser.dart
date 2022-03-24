@@ -114,8 +114,9 @@ class _LoginUserState extends State<LoginUser> {
                             const SizedBox(height: 20,),
                             Row(children:  [
                               const Expanded(child: Text("Remember me")),
-                              CupertinoSwitch(value: true, onChanged: (value){
-                                value=false;
+                              CupertinoSwitch(value: appCubit!.rememberMeChecked, onChanged: (value){
+                            //    value=appCubit!.rememberMeChecked;
+                                appCubit!.rememberMeFunction();
                               }),
 
                             ],),
@@ -167,14 +168,14 @@ class _LoginUserState extends State<LoginUser> {
                       children: [
 
                         GestureDetector(
-                          child:  const Image(image: const AssetImage('assets/images/google.png'),
+                          child:  const Image(image: AssetImage('assets/images/google.png'),
                             width: 50,height: 50,
                           ) ,
                           onTap: (){  appCubit!.googleSignInFunction(context);},
                         ),
                         SizedBox(width: 10,),
                         GestureDetector(
-                          child:  const Image(image: const AssetImage('assets/images/github.png'),
+                          child:  const Image(image: AssetImage('assets/images/github.png'),
                             width: 50,height: 50,
                           ) ,
                           onTap: (){  //appCubit!.googleSignInFunction(context);
@@ -182,14 +183,14 @@ class _LoginUserState extends State<LoginUser> {
                         ),
                         SizedBox(width: 10,),
                         GestureDetector(
-                          child:  const Image(image: const AssetImage('assets/images/twitter.png'),
+                          child:  const Image(image: AssetImage('assets/images/twitter.png'),
                             width: 50,height: 50,
                           ) ,
                           onTap: (){  },
                         ),
                         SizedBox(width: 10,),
                         GestureDetector(
-                          child:  const Image(image: const AssetImage('assets/images/facebook.png'),
+                          child:  const Image(image: AssetImage('assets/images/facebook.png'),
                             width: 50,height: 50,
                           ) ,
                           onTap: (){  appCubit!.signInWithFacebook();},

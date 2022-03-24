@@ -43,6 +43,7 @@ dependencies:
   motion_toast: ^2.1.4
   shared_preferences: ^2.0.13
   flutter_facebook_auth: ^4.1.2
+  #twitter_login: ^4.0.1
 
 
 dev_dependencies:
