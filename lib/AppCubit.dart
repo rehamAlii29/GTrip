@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:gtrip/AppStates.dart';
@@ -58,7 +59,26 @@ emit(GoogleSignInSuccessState());
 
 
   // login with gihub lessa >_<
-// login with twitter
+// login with facebook
+Future<void> signInWithFacebook() async {
+
+      final LoginResult result = await FacebookAuth.instance.login();
+
+          final AuthCredential facebookCredential =
+          FacebookAuthProvider.credential(result.accessToken!.token);
+          print( facebookCredential.token);
+
+           auth.signInWithCredential(facebookCredential).then((value) {
+             print(value.user!.displayName);
+             print(value.user!.phoneNumber);
+             print(value.user!.photoURL);
+             emit(FacebookSignInSuccessState());
+           }).catchError((onError){
+emit(FacebookSignInErrorState(onError.toString()));
+           });
+
+
+  }
 
 
 
