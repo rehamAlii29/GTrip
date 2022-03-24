@@ -167,15 +167,27 @@ class _LoginUserState extends State<LoginUser> {
                       ],
                     ),
 // lessa goz2 el social sign in
+Row( mainAxisAlignment:  MainAxisAlignment.center,
 
-                    MaterialButton(onPressed: (){
-                      appCubit!.googleSignInFunction(context);
+  children: [
+  MaterialButton(onPressed: (){
+    appCubit!.googleSignInFunction(context);
 
-                    },
-                      child : const Image(image: AssetImage('assets/images/google.png'),
-                        width: 100,height: 100,
-                      ) ,
-                    )
+  },
+    child : const Image(image: AssetImage('assets/images/google.png'),
+      width: 100,height: 100,
+    ) ,
+  ),
+
+  MaterialButton(onPressed: (){
+
+  },
+    child : const Image(image: AssetImage('assets/images/github.png'),
+      width: 30,height: 30,
+    ) ,
+  )
+],)
+
                   ],))
               ],
             ),
