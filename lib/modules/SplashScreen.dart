@@ -1,3 +1,6 @@
+
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // need editting
@@ -12,18 +15,19 @@ class SplashScreen extends StatelessWidget {
       body: Column(
         children: [
           // top part
-          Expanded(
-            child: Stack(
-              alignment: AlignmentDirectional.bottomCenter,
-              children: [
-                Container(
-                    //  height: heightOfTheScreen * .6,
-                    width: widthOfTheScreen,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('assets/images/Vector1.png'),
-                            fit: BoxFit.fill))),
-                Column(
+          Stack(
+            alignment: AlignmentDirectional.center,
+            children: [
+              Container(
+                  height: heightOfTheScreen * .4,
+                  width: widthOfTheScreen,
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage('assets/images/Vector1.png'),
+                          fit: BoxFit.fill))),
+              Positioned(
+
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -45,32 +49,33 @@ class SplashScreen extends StatelessWidget {
                                 fit: BoxFit.fill))),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
           //center part
-          SizedBox(
-            width: widthOfTheScreen,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+
+            Stack(
+              overflow: Overflow.visible,
+            //  alignment: AlignmentDirectional.topEnd
+              
               children: [
-                Stack(
-                  alignment: AlignmentDirectional.bottomCenter,
-                  fit: StackFit.loose,
-                  children: [
-                    Expanded(child: Image.asset('assets/images/car.png')),
-                    Stack(
-                      alignment: AlignmentDirectional.bottomEnd,
-                      children: [
-                        Image.asset('assets/images/person.png'),
-                        Image.asset('assets/images/box.png')
-                      ],
-                    )
-                  ],
+
+                Image.asset('assets/images/car.png',),
+                Positioned(
+                  bottom: heightOfTheScreen*.1,
+                  left: widthOfTheScreen*.3,
+
+                  child: Container(
+                    child: Stack( alignment: AlignmentDirectional.bottomStart,
+                      children: [Image.asset('assets/images/person.png'),
+                      Image.asset('assets/images/box.png')],),
+                  ),
                 ),
+
               ],
             ),
-          ),
+
+
           // bottom part
           Expanded(
             child: Stack(
