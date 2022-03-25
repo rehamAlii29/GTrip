@@ -7,6 +7,7 @@ import 'package:gtrip/AppCubit.dart';
 import 'package:gtrip/AppStates.dart';
 import 'package:gtrip/modules/LoginUser.dart';
 import 'package:gtrip/modules/SplashScreen.dart';
+import 'package:simple_auth_flutter/simple_auth_flutter.dart';
 
 void main() async{
  WidgetsFlutterBinding.ensureInitialized();
@@ -14,10 +15,22 @@ void main() async{
   runApp(const GTrip());
 }
 
-class GTrip extends StatelessWidget {
+class GTrip extends StatefulWidget {
   const GTrip({Key? key}) : super(key: key);
 
   @override
+
+  State<GTrip> createState() => _GTripState();
+}
+
+class _GTripState extends State<GTrip> {
+  @override
+  initState() {
+    super.initState();
+    SimpleAuthFlutter.init(context);
+  }
+  @override
+
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context)=>AppCubit(),

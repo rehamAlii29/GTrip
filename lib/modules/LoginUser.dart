@@ -23,11 +23,25 @@ class _LoginUserState extends State<LoginUser> {
   @override
   Widget build(BuildContext context) {
     return  BlocConsumer<AppCubit, AppStates>( listener: (context, state){
-      if(AppStates is GoogleSignInSuccessState)
+      if(state is UserLoginSuccessState){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const PersonalInfo()));
+      }
+      if(State is UserLoginErrorState){
+        MotionToast.warning(
+          description: const Text("Check your NetWork"),
+          borderRadius: 5,
+          title: const Text("Login Error",
+            style: TextStyle(
+                fontWeight: FontWeight.bold
+            ),),
+          iconType: ICON_TYPE.materialDesign,
+        ).show(context);
+      }
+      if(State is GoogleSignInSuccessState)
         {
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const PersonalInfo()));
         }
-      if (AppStates is GoogleSignInErrorState){
+      if (State is GoogleSignInErrorState){
         MotionToast.warning(
           description: const Text("Check your NetWork"),
           borderRadius: 5,
@@ -126,8 +140,8 @@ class _LoginUserState extends State<LoginUser> {
                               child: MaterialButton(child: const Text("Login",
                                 style: TextStyle(color: Colors.white),
                               ), onPressed: (){
-                                formKey.currentState!.validate();
-                                // lessa ha check 3al user lma a3mlha
+                               if (formKey.currentState!.validate()){ appCubit!.userLoginFunction(email: emailController.text, password: passwordController.text);}
+
 
                               },
                                 color: Colors.cyan[700]
@@ -178,7 +192,11 @@ class _LoginUserState extends State<LoginUser> {
                           child:  const Image(image: AssetImage('assets/images/github.png'),
                             width: 50,height: 50,
                           ) ,
-                          onTap: (){  //appCubit!.googleSignInFunction(context);
+                          onTap: (){
+
+                            appCubit!.siginwithgithub(appCubit!.githubApi);
+
+
                             },
                         ),
                         SizedBox(width: 10,),
