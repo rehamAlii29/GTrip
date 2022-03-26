@@ -47,7 +47,10 @@
                <action android:name="android.intent.action.VIEW" />
                <category android:name="android.intent.category.DEFAULT" />
                <category android:name="android.intent.category.BROWSABLE" />
+               <action android:name="android.intent.action.MAIN"/>
                <data android:scheme="@string/fb_login_protocol_scheme" />
+               <category android:name="android.intent.category.LAUNCHER"/>
+               <data android:scheme="twitter-firebase-auth"/>
            </intent-filter>
        </activity>
 

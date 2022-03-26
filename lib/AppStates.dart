@@ -10,7 +10,17 @@ class DrobDwonButtonState extends AppStates{}
 // Login Screen States
 class ShowAndHidePassword extends AppStates{}
 class RememberMeCheked extends AppStates{}
-
+// SignUp
+class ConfirmPasswordIconState extends AppStates{}
+class ClientCreateSuccessState extends AppStates{}
+class ClientcreateError extends AppStates{
+  String?onError;
+  ClientcreateError(this.onError);
+}
+class UserSignupErrorState extends AppStates{
+  String?onError;
+  UserSignupErrorState(this.onError);
+}
 
 class UserLoginSuccessState extends AppStates{
   // user id
@@ -29,6 +39,12 @@ class GithubSigninErrorState extends AppStates{
 class GoogleSignInSuccessState extends AppStates{}
 class GoogleSignInErrorState extends AppStates{
 }
+class TwitterSignInSuccessState extends AppStates{}
+class TwitterSignInErrorState extends AppStates{
+  String? onError;
+  TwitterSignInErrorState(this.onError);
+}
+
 class FacebookSignInSuccessState extends AppStates{}
 class FacebookSignInErrorState extends AppStates{
   String? onError;

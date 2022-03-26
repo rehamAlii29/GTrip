@@ -37,6 +37,7 @@ class _LoginUserState extends State<LoginUser> {
           iconType: ICON_TYPE.materialDesign,
         ).show(context);
       }
+      if (state is TwitterSignInSuccessState){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>PersonalInfo()));}
       if(State is GoogleSignInSuccessState)
         {
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const PersonalInfo()));
@@ -140,7 +141,9 @@ class _LoginUserState extends State<LoginUser> {
                               child: MaterialButton(child: const Text("Login",
                                 style: TextStyle(color: Colors.white),
                               ), onPressed: (){
-                               if (formKey.currentState!.validate()){ appCubit!.userLoginFunction(email: emailController.text, password: passwordController.text);}
+                               if (formKey.currentState!.validate()){
+                                 appCubit!.userLoginFunction(
+                                     email: emailController.text, password: passwordController.text);}
 
 
                               },
@@ -204,7 +207,9 @@ class _LoginUserState extends State<LoginUser> {
                           child:  const Image(image: AssetImage('assets/images/twitter.png'),
                             width: 50,height: 50,
                           ) ,
-                          onTap: (){  },
+                          onTap: (){
+                            appCubit!.SigninWithTwitterFunction();
+                          },
                         ),
                         SizedBox(width: 10,),
                         GestureDetector(
