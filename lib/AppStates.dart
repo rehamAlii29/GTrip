@@ -2,8 +2,16 @@ import 'package:flutter/rendering.dart';
 
 abstract class AppStates {}
 class InitialState extends AppStates{}
+//Slpash Screen States
+class DrobDwonButtonState extends AppStates{}
+
+
+
+// Login Screen States
 class ShowAndHidePassword extends AppStates{}
 class RememberMeCheked extends AppStates{}
+
+
 class UserLoginSuccessState extends AppStates{
   // user id
 }

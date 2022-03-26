@@ -12,13 +12,17 @@ import 'package:gtrip/AppStates.dart';
 import 'package:simple_auth/simple_auth.dart' as simpleAuth;
 import 'package:simple_auth_flutter/simple_auth_flutter.dart';
 
-
-
-
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(InitialState());
-
   static AppCubit get(context) => BlocProvider.of(context);
+  //  who are you part
+int? vlaue ;
+  drobDownmenu(int selectedValue){
+    vlaue = selectedValue;
+    emit(DrobDwonButtonState());
+
+  }
+
 
   // show and hide password
   bool obsecured = true;
@@ -85,7 +89,7 @@ emit(UserLoginSuccessState());
   }
 // Githutb
 
-  final simpleAuth.GithubApi githubApi = new simpleAuth.GithubApi(
+  final simpleAuth.GithubApi githubApi = simpleAuth.GithubApi(
       "github", "f192cf09118888abc39e", "e65cf4d0ba1ffb9515f675e7c645258ff998c73c", "https://gtrip-aa098.firebaseapp.com/__/auth/handler",
       scopes: [
         "user",
