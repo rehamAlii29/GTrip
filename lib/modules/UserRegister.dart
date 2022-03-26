@@ -16,7 +16,7 @@ var phonenumber=TextEditingController();
 var username=TextEditingController();
 var password=TextEditingController();
 var confirmpassword=TextEditingController();
-String? fullphoneNumber;
+String fullphoneNumber= '+02' + phonenumber.text;
 var formKey=GlobalKey<FormState>();
 AppCubit appCubit=AppCubit();
 class _UserRegisterState extends State<UserRegister> {
@@ -165,10 +165,11 @@ initialSelection: 'eg',
 if(formKey.currentState!.validate()){
   appCubit.userSignup(fullname: fullname.text,
       email: email.text,
-      phone: phonenumber.text,
+      phone: fullphoneNumber.toString(),
       username: username.text,
     password: password.text
      );
+  print(fullphoneNumber);
 }
                 }, child: Text("Sign Up", style: TextStyle(color: Colors.white),),
                     color: Colors.cyan[700],
@@ -181,7 +182,7 @@ Row(
   mainAxisAlignment: MainAxisAlignment.center,
    children: [
   Text("Already have an account  " ,style: Theme.of(context).textTheme.caption,),
-     Text("Signup" ,style: Theme.of(context).textTheme.bodyMedium,)
+     Text("Signin" ,style: Theme.of(context).textTheme.bodyMedium,)
 ],)
 
 
