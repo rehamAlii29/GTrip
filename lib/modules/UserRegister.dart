@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gtrip/AppCubit.dart';
 import 'package:gtrip/AppStates.dart';
+import 'package:gtrip/modules/LoginUser.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class UserRegister extends StatefulWidget {
   const UserRegister({Key? key}) : super(key: key);
 
@@ -35,7 +37,9 @@ class _UserRegisterState extends State<UserRegister> {
             key: formKey,
             child: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Column(children: [
+              child: Column(
+mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
                 Row(children: [Text("FullName")],),
                 TextFormField(
                   controller: fullname,
@@ -50,7 +54,7 @@ class _UserRegisterState extends State<UserRegister> {
 
                   ),
                 ),
-                SizedBox(height: 20,),
+                SizedBox(height: 25,),
                 Row(children: [Text("E-mail address")],),
                 TextFormField(
                   controller: email,
@@ -61,12 +65,12 @@ class _UserRegisterState extends State<UserRegister> {
                   },
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    suffix: Icon(Icons.email),
+                    suffixIcon: Icon(Icons.email_outlined),
                       hintText: "myemail@gmail.com"
 
                   ),
                 ),
-                SizedBox(height: 20,),
+                SizedBox(height: 25,),
                 Row(children: [Text('phone number')],),
                 TextFormField(
 
@@ -85,12 +89,12 @@ initialSelection: 'eg',
 
                       },
                     ),
-                      suffix: Icon(Icons.phone),
+                      suffixIcon:  Icon(Icons.phone),
                       hintText: "0231458795"
 
                   ),
                 ),
-                SizedBox(height: 20,),
+                SizedBox(height: 25,),
                 Row(children: [Text("Username")],),
                 TextFormField(
                   controller: username,
@@ -101,12 +105,12 @@ initialSelection: 'eg',
                   },
                   keyboardType: TextInputType.name,
                   decoration: InputDecoration(
-                      suffix: Icon(Icons.account_circle),
+                      suffixIcon: Icon(Icons.account_circle),
                       hintText: "Duran0124r"
 
                   ),
                 ),
-                SizedBox(height: 20,),
+                SizedBox(height: 25,),
                 Row(children: [Text("password")],),
                 TextFormField(
                   controller: password,
@@ -126,12 +130,12 @@ initialSelection: 'eg',
                       appCubit.showAndHidePasswordFunc();
                     },
                         icon: Icon(appCubit.passwordIcon)),
-                      Icon(Icons.key)
+                      FaIcon(FontAwesomeIcons.key, size: 20,)
                     ],),
                       hintText: "*************",
                   ),
                 ),
-                SizedBox(height: 20,),
+                SizedBox(height: 25,),
                 Row(children: [Text("Confirm Password")],),
                 TextFormField(
                   controller: confirmpassword,
@@ -151,7 +155,7 @@ initialSelection: 'eg',
                           appCubit.confirmPasswordfunction();
                         },
                             icon: Icon(appCubit.confirmpasswordIcon)),
-                          Icon(Icons.key)
+                          FaIcon(FontAwesomeIcons.key, size: 20,)
                         ],),
                       hintText: "*************"
 
@@ -161,6 +165,7 @@ initialSelection: 'eg',
                 //button
                 MaterialButton(
                   minWidth: MediaQuery.of(context).size.width,
+                 // height: 30,
                   onPressed: (){
 if(formKey.currentState!.validate()){
   appCubit.userSignup(fullname: fullname.text,
@@ -171,18 +176,21 @@ if(formKey.currentState!.validate()){
      );
   print(fullphoneNumber);
 }
-                }, child: Text("Sign Up", style: TextStyle(color: Colors.white),),
-                    color: Colors.cyan[700],
+                }, child: Text("Sign Up", style: TextStyle(color: Colors.white, fontSize: 16,fontWeight: FontWeight.bold),),
+                    color: Colors.cyan[800],
                     shape: RoundedRectangleBorder(
+
                     borderRadius: BorderRadius.circular(20)
       ),
                 ),
-                SizedBox(height: 15,),
+
 Row(
   mainAxisAlignment: MainAxisAlignment.center,
    children: [
-  Text("Already have an account  " ,style: Theme.of(context).textTheme.caption,),
-     Text("Signin" ,style: Theme.of(context).textTheme.bodyMedium,)
+  Text("Already have an account  " ,style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 15),),
+     TextButton(onPressed: (){Navigator.pushReplacement(context,
+         MaterialPageRoute(builder: (context)=> LoginUser()));}, child:
+     Text("LogIn" ,style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 20),))
 ],)
 
 

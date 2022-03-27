@@ -48,8 +48,8 @@ dependencies:
   simple_auth_flutter: ^2.0.11
   twitter_login: ^4.0.1
   country_code_picker: ^2.0.2
-
-
+  google_fonts: ^2.3.1
+  font_awesome_flutter: ^10.1.0
 
 dev_dependencies:
   flutter_test:
