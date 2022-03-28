@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">GTrip</string>
-    <string name="facebook_app_id">272215478300115</string>
-    <string name="fb_login_protocol_scheme">fb272215478300115</string>
-    <string name="facebook_client_token">7d030ab88e3a833061804c8f9c247d50</string>
-
+    <string name="app_name">gtrip</string>
+    <string name="facebook_app_id">370425445093194</string>
+    <string name="fb_login_protocol_scheme">fb370425445093194</string>
+    <string name="facebook_client_token">62d9e31ee2688a95a6b7559560df7551</string>
 
 </resources>

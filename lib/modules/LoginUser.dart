@@ -53,6 +53,9 @@ class _LoginUserState extends State<LoginUser> {
           iconType: ICON_TYPE.materialDesign,
         ).show(context);
       }
+      if (state is FacebookSignInSuccessState){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>PersonalInfo()));
+      }
     },builder: (context, state) {
       appCubit = BlocProvider.of<AppCubit>(context);
       return Scaffold(

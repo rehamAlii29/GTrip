@@ -189,20 +189,22 @@ emit(UserLoginSuccessState());
     final twitterLogin = TwitterLogin(
       apiKey: "yLMyqlvneS3ZXWu2lTp4HI90u",
       apiSecretKey: "J1KAY8buMZXJIoFlPgJdrcRrGIKk8c7yKEAvf4a5bIQGy2pDht",
-      redirectURI: "https://gtrip-aa098.firebaseapp.com/__/auth/handler",
+      redirectURI: 'gtripapp://',
     );
 
-    final authResult = await twitterLogin.login();
+    final authResult =   await twitterLogin.login();
     switch(authResult.status){
       case TwitterLoginStatus.loggedIn:
-        final AuthCredential twittercredential= TwitterAuthProvider.credential(accessToken: authResult.authToken!, secret: authResult.authTokenSecret!);
-auth.signInWithCredential(twittercredential).then((value) {
-  print(value.user!.displayName);
+        {
+        final AuthCredential twittercredential=
+        TwitterAuthProvider.credential(accessToken: authResult.authToken!, secret: authResult.authTokenSecret!);
+await auth.signInWithCredential(twittercredential).then((value) {
+
   emit(TwitterSignInSuccessState());
 }).catchError((onError){
   emit(TwitterSignInErrorState(onError.toString()));
 });
-    }
+    } break;}
   }
 
 
@@ -215,9 +217,7 @@ auth.signInWithCredential(twittercredential).then((value) {
     print(facebookCredential.token);
 
     auth.signInWithCredential(facebookCredential).then((value) {
-      print(value.user!.displayName);
-      print(value.user!.phoneNumber);
-      print(value.user!.photoURL);
+print(value.user!.displayName);
       emit(FacebookSignInSuccessState());
     }).catchError((onError) {
       emit(FacebookSignInErrorState(onError.toString()));

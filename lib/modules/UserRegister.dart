@@ -165,7 +165,7 @@ initialSelection: 'eg',
                 //button
                 MaterialButton(
                   minWidth: MediaQuery.of(context).size.width,
-                 // height: 30,
+                  height: 50,
                   onPressed: (){
 if(formKey.currentState!.validate()){
   appCubit.userSignup(fullname: fullname.text,
