@@ -12,8 +12,13 @@ import 'package:google_sign_in/google_sign_in.dart' ;
 import 'package:gtrip/AppStates.dart';
 import 'package:gtrip/Constant/const.dart';
 import 'package:gtrip/models/ClientModel.dart';
+import 'package:gtrip/modules/Help.dart';
+import 'package:gtrip/modules/History.dart';
+import 'package:gtrip/modules/HomeScreen.dart';
 import 'package:twitter_login/twitter_login.dart';
 import 'package:github_sign_in/github_sign_in.dart';
+
+import 'modules/MoreScreens.dart/MoreScreen.dart';
 
 
 class AppCubit extends Cubit<AppStates> {
@@ -58,7 +63,19 @@ ClientModel?clientModel;
     }
   }
 
+// bottom nav bar
+  int currentIndex= 0;
+  List<Widget> ScreensofNavbar= [
+    HomeScreen(),
+    History(),
+    Help(),
+    MoreScreen()
 
+  ];
+  toggelbetweenNavbarScreens(int selectedIndex){
+    currentIndex = selectedIndex;
+    emit(BottomNavBarChangingSuccess());
+  }
   //  Signup
   userSignup(
   {
@@ -156,41 +173,11 @@ emit(UserLoginSuccessState());
     else
       emit(GoogleSignInErrorState());
   }
-// Githutb
-
-/*  final simpleAuth.GithubApi githubApi = simpleAuth.GithubApi(
-      "github", "f192cf09118888abc39e", "e65cf4d0ba1ffb9515f675e7c645258ff998c73c",
-       "https://gtrip-aa098.firebaseapp.com/__/auth/handler",
-      scopes: [
-        "user",
-        "repo",
-        "public_repo",
-      ]);*/
 
   Future<void> signInWithGitHub( ) async {
     User? user = await FirebaseAuthOAuth()
         .openSignInFlow("github.com", ["email"], {"locale": "en"});
-    //didnt work also
-   /* final GitHubSignIn gitHubSignIn = GitHubSignIn(
-        clientId: 'd7422b455a38448d96cf',
-        clientSecret: '3d0379fcc5f8da00a78c71676890438b9af8525d',
-        redirectUrl: "https://gtrip-aa098.firebaseapp.com/__/auth/handler"
-    );
-print("1");
-    // Trigger the sign-in flow
-    final result = await gitHubSignIn.signIn(context);
-    print("2");
-    // Create a credential from the access token
-    final githubAuthCredential = GithubAuthProvider.credential(result.token!);
-    print("3");
-    // Once signed in, return the UserCredential
-    FirebaseAuth.instance.signInWithCredential(githubAuthCredential).then((value) {
-      print("4");
-      print(value.user!.displayName);
-      print("5");
-      emit(GithubSigninSuccessState());
-      print("6");
-    });*/
+
   }
 
      // Twitter
@@ -199,26 +186,6 @@ print("1");
         .openSignInFlow("twitter.com", ["email"], {"locale": "en"});
 print(user!.displayName);
 emit(TwitterSignInSuccessState());
-
-
-// didnt work
-  /*  final twitterLogin = new TwitterLogin(
-        apiKey: 'CMAMzfkSvgUckQPLv8P7s7CWo',
-        apiSecretKey:'KQ5LWIjAFbbguRCZSqwGVJ2jCpBzOfMLBzLriqA6tiEwrWXKfF',
-        redirectURI: 'gtriptwitter://'
-    );
-
-    final authResult = await twitterLogin.login();
-    final twitterAuthCredential = await TwitterAuthProvider.credential(
-      accessToken: authResult.authToken!,
-      secret: authResult.authTokenSecret!,
-    );
-    FirebaseAuth.instance.signInWithCredential(twitterAuthCredential).then((value) {
-      print(value.user!.displayName);
-      emit(TwitterSignInSuccessState());
-    });*/
-
-
 
 
 

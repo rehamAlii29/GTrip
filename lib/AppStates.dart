@@ -6,6 +6,14 @@ class InitialState extends AppStates{}
 class DrobDwonButtonState extends AppStates{}
 
 
+// bottom navigation bar
+class BottomNavBarChangingSuccess extends AppStates{}
+class BottomNavBarChangingError extends AppStates{
+  String? onError;
+  BottomNavBarChangingError(this.onError);
+}
+
+
 
 // Login Screen States
 class ShowAndHidePassword extends AppStates{}
