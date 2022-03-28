@@ -58,7 +58,7 @@
                <category android:name="android.intent.category.BROWSABLE" />
                <action android:name="android.intent.action.MAIN"/>
                <category android:name="android.intent.category.LAUNCHER"/>
-               <data android:scheme="gtripapp"/>
+               <data android:scheme="gtriptwitter"/>
            </intent-filter>
        </activity>
 

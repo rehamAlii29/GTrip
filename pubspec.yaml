@@ -44,12 +44,13 @@ dependencies:
   motion_toast: ^2.1.4
   shared_preferences: ^2.0.13
   flutter_facebook_auth: ^4.1.2
-  simple_auth: ^2.0.10
-  simple_auth_flutter: ^2.0.11
   twitter_login: ^4.0.1
   country_code_picker: ^2.0.2
   google_fonts: ^2.3.1
   font_awesome_flutter: ^10.1.0
+  firebase_auth_oauth: ^1.2.0
+  webview_flutter: ^3.0.1
+  github_sign_in: ^0.0.5-dev.4
 
 dev_dependencies:
   flutter_test:

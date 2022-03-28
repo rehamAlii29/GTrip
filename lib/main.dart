@@ -7,7 +7,7 @@ import 'package:gtrip/AppCubit.dart';
 import 'package:gtrip/AppStates.dart';
 import 'package:gtrip/modules/LoginUser.dart';
 import 'package:gtrip/modules/SplashScreen.dart';
-import 'package:simple_auth_flutter/simple_auth_flutter.dart';
+
 
 void main() async{
  WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +27,7 @@ class _GTripState extends State<GTrip> {
   @override
   initState() {
     super.initState();
-    SimpleAuthFlutter.init(context);
+
   }
   @override
 

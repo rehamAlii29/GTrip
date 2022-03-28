@@ -56,6 +56,9 @@ class _LoginUserState extends State<LoginUser> {
       if (state is FacebookSignInSuccessState){
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>PersonalInfo()));
       }
+      if (state is GithubSigninSuccessState){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>PersonalInfo()));
+      }
     },builder: (context, state) {
       appCubit = BlocProvider.of<AppCubit>(context);
       return Scaffold(
@@ -200,7 +203,7 @@ class _LoginUserState extends State<LoginUser> {
                           ) ,
                           onTap: (){
 
-                            appCubit!.siginwithgithub(appCubit!.githubApi);
+                            appCubit!.signInWithGitHub();
 
 
                             },
@@ -211,7 +214,7 @@ class _LoginUserState extends State<LoginUser> {
                             width: 50,height: 50,
                           ) ,
                           onTap: (){
-                            appCubit!.SigninWithTwitterFunction();
+                            appCubit!.signInWithTwitter();
                           },
                         ),
                         SizedBox(width: 10,),
