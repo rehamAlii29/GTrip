@@ -12,6 +12,7 @@ import 'package:google_sign_in/google_sign_in.dart' ;
 import 'package:gtrip/AppStates.dart';
 import 'package:gtrip/Constant/const.dart';
 import 'package:gtrip/models/ClientModel.dart';
+import 'package:gtrip/modules/AppHome.dart';
 import 'package:gtrip/modules/Help.dart';
 import 'package:gtrip/modules/History.dart';
 import 'package:gtrip/modules/HomeScreen.dart';
@@ -66,7 +67,7 @@ ClientModel?clientModel;
 // bottom nav bar
   int currentIndex= 0;
   List<Widget> ScreensofNavbar= [
-    HomeScreen(),
+   AppHome(),
     History(),
     Help(),
     MoreScreen()
@@ -193,6 +194,8 @@ emit(TwitterSignInSuccessState());
 
 
 // login with facebook
+  //test
+  String ?imageoffacebook ='';
   Future<void> signInWithFacebook() async {
     final LoginResult result = await FacebookAuth.instance.login();
 
@@ -201,6 +204,7 @@ emit(TwitterSignInSuccessState());
     print(facebookCredential.token);
 
     auth.signInWithCredential(facebookCredential).then((value) {
+      imageoffacebook= value.user!.photoURL;
 print(value.user!.displayName);
       emit(FacebookSignInSuccessState());
     }).catchError((onError) {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gtrip/AppCubit.dart';
 import 'package:gtrip/AppStates.dart';
+import 'package:gtrip/modules/MoreScreens.dart/MoreScreen.dart';
 import 'package:gtrip/modules/MoreScreens.dart/Personalinfo.dart';
 import 'package:gtrip/modules/UserRegister.dart';
 import 'package:flutter_remix/flutter_remix.dart' ;
@@ -54,7 +55,7 @@ class _LoginUserState extends State<LoginUser> {
         ).show(context);
       }
       if (state is FacebookSignInSuccessState){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>PersonalInfo()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MoreScreen()));
       }
       if (state is GithubSigninSuccessState){
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>PersonalInfo()));

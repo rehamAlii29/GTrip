@@ -1,8 +1,9 @@
 
 
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gtrip/AppCubit.dart';
 import 'package:gtrip/AppStates.dart';
 
@@ -19,22 +20,38 @@ class _PersonalInfoState extends State<PersonalInfo> {
     return  BlocConsumer<AppCubit, AppStates>(
         listener: (context, state){},
         builder: (context, state) {
-          return  Scaffold(
-            body: Column(children: [
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height*.3,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage('assets/images/Vector4.png')
-                  )
-                ),
-              ),
-            ],),
-          );
 
-    }
+          return
+             Padding(
+                padding: const EdgeInsets.all(20),
+          child: Column(children: [
+
+          Text("Email"),
+          SizedBox(height:25 ,),
+          Row(
+            children: [
+                Expanded(
+                  child: TextFormField(
+
+                  ),
+                ),
+                SizedBox(width: 20,),
+                IconButton(onPressed: (){}, icon: FaIcon(FontAwesomeIcons.solidPenToSquare,size: 15,)),
+            ],
+          ),
+
+          Text("Email"),
+          ],),
+          
+
+
+
+
+
+
+          //
+
+              );}
     );
   }
 }

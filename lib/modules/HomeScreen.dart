@@ -21,15 +21,19 @@ class _HomeScreenState extends State<HomeScreen> {
           return Scaffold(
             body: AppCubit.get(context).ScreensofNavbar[AppCubit.get(context).currentIndex],
             bottomNavigationBar: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              selectedItemColor: Colors.white,
+              unselectedItemColor: Colors.grey[400],
+              backgroundColor: Colors.cyan[800],
               currentIndex: AppCubit.get(context).currentIndex,
               onTap: (selectedIndex){
                 AppCubit.get(context).toggelbetweenNavbarScreens(selectedIndex);
               },
             items: const [
-              BottomNavigationBarItem(icon: FaIcon(FontAwesomeIcons.home), label: "Home" ),
-              BottomNavigationBarItem(icon: FaIcon(FontAwesomeIcons.history), label: "Home" ),
-              BottomNavigationBarItem(icon: Icon(Icons.help), label: "Home" ),
-              BottomNavigationBarItem(icon: Icon(Icons.read_more_sharp), label: "Home" ),
+              BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: "Home" ),
+              BottomNavigationBarItem(icon: Icon(Icons.history_edu_sharp), label: "History" ),
+              BottomNavigationBarItem(icon: Icon(Icons.help_outline), label: "Help" ),
+              BottomNavigationBarItem(icon: Icon(Icons.read_more_sharp), label: "More" ),
             ],
             ),
           );
