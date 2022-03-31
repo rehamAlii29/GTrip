@@ -1,4 +1,4 @@
-import 'dart:ffi';
+
 
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_oauth/firebase_auth_oauth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart' ;
@@ -79,6 +80,10 @@ ClientModel?clientModel;
     emit(BottomNavBarChangingSuccess());
   }
   //  Signup
+
+
+
+
   userSignup(
   {
     @required String? fullname,
@@ -88,18 +93,39 @@ ClientModel?clientModel;
     @required String? password,
 
 }
-      ){
-    auth.createUserWithEmailAndPassword(email: email!, password: password!).then((value) {
+       )async{
+
+
+    try
+        {
+         await  auth.createUserWithEmailAndPassword(email: email!, password: password!);
+            userid= FirebaseAuth.instance.currentUser!.uid;
+            createuser(fullname: fullname, email: email, phone: phone, username: username, userid: userid);
+        }
+          on FirebaseAuthException catch (error) {
+emit(UserSignupErrorState(error.message.toString()));
+          }
+          }
+
+    /*auth.createUserWithEmailAndPassword(email: email!, password: password!).then((value) {
       userid= FirebaseAuth.instance.currentUser!.uid;
      createuser(fullname: fullname, email: email, phone: phone, username: username, userid: userid);
 
 
     }).catchError((onError){
+      FirebaseAuthException ?exception;
+
+      switch(exception!.code)
+      {
+        case "ERROR_EMAIL_ALREADY_IN_USE":
+          onError= "The email address is already in use by another account";
+      }
+      print(onError);
       emit(UserSignupErrorState(onError.toString()));
     });
+*/
 
 
-  }
   // create user in firebase
   createuser({ @required String? fullname,
     @required String? email,
@@ -117,7 +143,8 @@ ClientModel?clientModel;
         fullname: fullname
     );
     FirebaseFirestore.instance.collection('Clients').doc(userid).set(clientModel.tofirebase()).then((value) {
-      emit(ClientCreateSuccessState());
+      getClientDataFromFireStor(userid);
+      //emit(ClientCreateSuccessState());
     }).catchError((onError){
       emit(ClientcreateError(onError.toString()));
     });
@@ -160,7 +187,32 @@ emit(UserLoginSuccessState());
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final GoogleSignInAccount? googleSignInAccount = await googleSignIn
         .signIn();
-    if (googleSignInAccount != null) {
+
+    final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount!
+        .authentication;
+    final AuthCredential authCredential = GoogleAuthProvider.credential(
+        idToken: googleSignInAuthentication.idToken,
+        accessToken: googleSignInAuthentication.accessToken
+    );
+  auth.signInWithCredential(authCredential).then((value) {
+userid= value.user!.uid;
+    createuser(fullname: value.user!.displayName,
+        email: value.user!.email,
+        phone: value.user!.phoneNumber,
+        username: value.user!.refreshToken,
+        userid: value.user!.uid);
+     emit(GoogleSignInSuccessState());
+   }).catchError((exception){
+print(exception.message.toString());
+    emit(GoogleSignInErrorState(exception.message.toString()));
+
+
+
+
+   });
+
+
+  /*  if (googleSignInAccount != null) {
       final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount
           .authentication;
       final AuthCredential authCredential = GoogleAuthProvider.credential(
@@ -173,7 +225,7 @@ emit(UserLoginSuccessState());
       emit(GoogleSignInSuccessState());
     }
     else
-      emit(GoogleSignInErrorState());
+      emit(GoogleSignInErrorState());*/
   }
 
   Future<void> signInWithGitHub( ) async {
@@ -196,7 +248,7 @@ emit(TwitterSignInSuccessState());
 
 // login with facebook
   //test
-  String ?imageoffacebook ='';
+
   Future<void> signInWithFacebook() async {
     final LoginResult result = await FacebookAuth.instance.login();
 
@@ -205,14 +257,46 @@ emit(TwitterSignInSuccessState());
     print(facebookCredential.token);
 
     auth.signInWithCredential(facebookCredential).then((value) {
-      imageoffacebook= value.user!.photoURL;
-print(value.user!.displayName);
+
+      userid= value.user!.uid;
+      createuser(fullname: value.user!.displayName,
+          image: value.user!.photoURL,
+          email: value.user!.email,
+          phone: value.user!.phoneNumber,
+          username: value.user!.displayName,
+          userid: value.user!.uid);
+
       emit(FacebookSignInSuccessState());
     }).catchError((onError) {
       emit(FacebookSignInErrorState(onError.toString()));
     });
   }
 
+getClientDataFromFireStor(String?userid) async{
+    FirebaseFirestore.instance.collection('Clients').doc(userid).get().then((value) {
+clientModel=ClientModel.fromfirebase(value.data() as Map<String, dynamic>);
+
+    });
+}
+updateClientData({
+
+  String?email,
+  String? username ,
+  String?phoneNumber,
+  String?profilePhoto
+
+}){
+    ClientModel clientModelupdate = ClientModel(
+fullname: clientModel!.fullname,
+      userid: clientModel!.userid,
+      username: username??clientModel!.username,
+      phone: phoneNumber??clientModel!.phone,
+      email: email??clientModel!.email,
+      image: profilePhoto??clientModel!.image
+
+
+    );
+}
 
 
 }

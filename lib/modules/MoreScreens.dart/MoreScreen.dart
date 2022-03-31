@@ -8,6 +8,7 @@ import 'package:gtrip/AppStates.dart';
 import 'package:gtrip/modules/MoreScreens.dart/MyWallet.dart';
 import 'package:gtrip/modules/MoreScreens.dart/Personalinfo.dart';
 
+import '../../models/ClientModel.dart';
 import 'TokenBnus.dart';
 
 class MoreScreen extends StatefulWidget {
@@ -32,6 +33,7 @@ void initState() {
     return BlocConsumer<AppCubit,AppStates>(
         listener: (context , state){},
     builder: (context , state){
+      var data = AppCubit.get(context).clientModel;
     return Container(
       child: Column(
         children: [
@@ -62,7 +64,7 @@ void initState() {
               children: [
                 CircleAvatar(
                   radius: 50,
-                  backgroundImage: NetworkImage('${AppCubit.get(context).imageoffacebook}'),
+                  backgroundImage: NetworkImage("${data!.image}"),
 
                 ),
                 IconButton(onPressed: (){}, icon:FaIcon(FontAwesomeIcons.solidPenToSquare, size: 20,))
@@ -77,7 +79,7 @@ void initState() {
           Padding(
             padding: const EdgeInsets.only(left: 20,),
             child: Row(children: [
-              Text("User name", style: TextStyle(color: Colors.black, fontSize: 20)),
+              Text("${data.username}", style: TextStyle(color: Colors.black, fontSize: 20)),
 
 
               IconButton(onPressed: (){}, icon: FaIcon(FontAwesomeIcons.solidPenToSquare,size: 15,))
@@ -97,6 +99,7 @@ void initState() {
 
         ),
           Expanded(child: TabBarView(
+            controller: _tabController,
             children: [
               PersonalInfo(),
               MyWallet(),

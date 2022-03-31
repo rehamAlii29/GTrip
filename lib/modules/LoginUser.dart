@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gtrip/AppCubit.dart';
 import 'package:gtrip/AppStates.dart';
+import 'package:gtrip/models/ClientModel.dart';
+import 'package:gtrip/modules/HomeScreen.dart';
 import 'package:gtrip/modules/MoreScreens.dart/MoreScreen.dart';
 import 'package:gtrip/modules/MoreScreens.dart/Personalinfo.dart';
 import 'package:gtrip/modules/UserRegister.dart';
@@ -20,14 +22,16 @@ var formKey= GlobalKey<FormState>();
 var emailController= TextEditingController();
 var passwordController= TextEditingController();
 AppCubit? appCubit ;
+
 class _LoginUserState extends State<LoginUser> {
   @override
   Widget build(BuildContext context) {
-    return  BlocConsumer<AppCubit, AppStates>( listener: (context, state){
+    return  BlocConsumer<AppCubit, AppStates>(
+      listener: (context, state){
       if(state is UserLoginSuccessState){
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const PersonalInfo()));
       }
-      if(State is UserLoginErrorState){
+      if(state is UserLoginErrorState){
         MotionToast.warning(
           description: const Text("Check your NetWork"),
           borderRadius: 5,
@@ -43,9 +47,10 @@ class _LoginUserState extends State<LoginUser> {
         {
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const PersonalInfo()));
         }
-      if (State is GoogleSignInErrorState){
+      if (state is GoogleSignInErrorState){
+
         MotionToast.warning(
-          description: const Text("Check your NetWork"),
+          description:  Text(state.onError!),
           borderRadius: 5,
           title: const Text("Login Error",
           style: TextStyle(
@@ -55,7 +60,7 @@ class _LoginUserState extends State<LoginUser> {
         ).show(context);
       }
       if (state is FacebookSignInSuccessState){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MoreScreen()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> HomeScreen()));
       }
       if (state is GithubSigninSuccessState){
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>PersonalInfo()));

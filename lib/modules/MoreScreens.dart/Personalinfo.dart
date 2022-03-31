@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gtrip/AppCubit.dart';
 import 'package:gtrip/AppStates.dart';
+import 'package:gtrip/models/ClientModel.dart';
 
 class PersonalInfo extends StatefulWidget {
   const PersonalInfo({Key? key}) : super(key: key);
@@ -13,6 +14,7 @@ class PersonalInfo extends StatefulWidget {
   @override
   _PersonalInfoState createState() => _PersonalInfoState();
 }
+
 
 class _PersonalInfoState extends State<PersonalInfo> {
   @override

@@ -26,7 +26,7 @@ class ClientcreateError extends AppStates{
   ClientcreateError(this.onError);
 }
 class UserSignupErrorState extends AppStates{
-  String?onError;
+ final String?onError;
   UserSignupErrorState(this.onError);
 }
 
@@ -46,6 +46,9 @@ class GithubSigninErrorState extends AppStates{
 
 class GoogleSignInSuccessState extends AppStates{}
 class GoogleSignInErrorState extends AppStates{
+
+  final String? onError;
+  GoogleSignInErrorState(this.onError);
 }
 class TwitterSignInSuccessState extends AppStates{}
 class TwitterSignInErrorState extends AppStates{
@@ -58,3 +61,4 @@ class FacebookSignInErrorState extends AppStates{
   String? onError;
   FacebookSignInErrorState(this.onError);
 }
+class GetDatasucces extends AppStates{}

@@ -6,6 +6,8 @@ import 'package:gtrip/AppCubit.dart';
 import 'package:gtrip/AppStates.dart';
 import 'package:gtrip/modules/LoginUser.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:motion_toast/motion_toast.dart';
+import 'package:motion_toast/resources/arrays.dart';
 class UserRegister extends StatefulWidget {
   const UserRegister({Key? key}) : super(key: key);
 
@@ -24,7 +26,20 @@ AppCubit appCubit=AppCubit();
 class _UserRegisterState extends State<UserRegister> {
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AppCubit, AppStates>( listener: (context , state){},
+    return BlocConsumer<AppCubit, AppStates>( listener: (context , state){
+      if(state is UserSignupErrorState)
+      {
+        MotionToast.warning(
+          description:  Text(state.onError!),
+          borderRadius: 5,
+          title: const Text("Login Error",
+            style: TextStyle(
+                fontWeight: FontWeight.bold
+            ),),
+          iconType: ICON_TYPE.materialDesign,
+        ).show(context);
+      }
+    },
       builder: (context , state){
       appCubit=BlocProvider.of<AppCubit>(context);
       return Scaffold(
