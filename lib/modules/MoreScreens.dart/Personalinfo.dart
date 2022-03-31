@@ -24,7 +24,9 @@ class _PersonalInfoState extends State<PersonalInfo> {
           return
              Padding(
                 padding: const EdgeInsets.all(20),
-          child: Column(children: [
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start  ,
+            children: [
 
           Text("Email"),
           SizedBox(height:25 ,),
@@ -32,15 +34,33 @@ class _PersonalInfoState extends State<PersonalInfo> {
             children: [
                 Expanded(
                   child: TextFormField(
+decoration: InputDecoration(
+  border: OutlineInputBorder()
 
+),
                   ),
                 ),
                 SizedBox(width: 20,),
-                IconButton(onPressed: (){}, icon: FaIcon(FontAwesomeIcons.solidPenToSquare,size: 15,)),
+                IconButton(onPressed: (){}, icon: FaIcon(FontAwesomeIcons.solidPenToSquare,size: 20,)),
             ],
           ),
+         SizedBox(height: 20,),
 
-          Text("Email"),
+          Text("Phone"),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder()
+
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 20,),
+                  IconButton(onPressed: (){}, icon: FaIcon(FontAwesomeIcons.solidPenToSquare,size: 20,)),
+                ],
+              ),
           ],),
           
 

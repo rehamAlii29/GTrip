@@ -41,7 +41,7 @@ class _GTripState extends State<GTrip> {
         builder: (context,state){
           return  MaterialApp(
           debugShowCheckedModeBanner: false,
-          home:  LoginUser(),
+          home:  HomeScreen(),
     theme: ThemeData(
     scaffoldBackgroundColor: Colors.white,
     appBarTheme:

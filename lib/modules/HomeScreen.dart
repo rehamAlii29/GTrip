@@ -19,6 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
         listener: (context , state){},
         builder: (context , state){
           return Scaffold(
+
             body: AppCubit.get(context).ScreensofNavbar[AppCubit.get(context).currentIndex],
             bottomNavigationBar: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,

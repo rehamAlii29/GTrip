@@ -14,16 +14,105 @@ class MoreScreen extends StatefulWidget {
   const MoreScreen({Key? key}) : super(key: key);
 
   @override
+
   State<MoreScreen> createState() => _MoreScreenState();
 }
 
-class _MoreScreenState extends State<MoreScreen> {
+class _MoreScreenState extends State<MoreScreen>
+    with SingleTickerProviderStateMixin
+{
+  TabController? _tabController;
+@override
+void initState() {
+  _tabController = new  TabController(length: 3, vsync: this);
+  super.initState();
+}
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit,AppStates>(
         listener: (context , state){},
     builder: (context , state){
-    return DefaultTabController(
+    return Container(
+      child: Column(
+        children: [
+          // above part
+      Container(
+
+      height: MediaQuery.of(context).size.height*.3,
+      width: MediaQuery.of(context).size.width,
+      child: Stack(
+        alignment: AlignmentDirectional.bottomStart,
+        children: [
+          // container of vector image
+          Container(
+            height: MediaQuery.of(context).size.height*.3,
+            width: MediaQuery.of(context).size.width,
+            child: Image.asset('assets/images/Vector4.png',
+
+              fit: BoxFit.fill,
+
+            ),
+          ),
+          //  circular avatar
+          Padding(
+            padding: const EdgeInsets.only(left: 20,bottom: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  radius: 50,
+                  backgroundImage: NetworkImage('${AppCubit.get(context).imageoffacebook}'),
+
+                ),
+                IconButton(onPressed: (){}, icon:FaIcon(FontAwesomeIcons.solidPenToSquare, size: 20,))
+              ],
+            ),
+          )
+        ],
+      ) ,
+      ),
+
+        ///////////////////
+          Padding(
+            padding: const EdgeInsets.only(left: 20,),
+            child: Row(children: [
+              Text("User name", style: TextStyle(color: Colors.black, fontSize: 20)),
+
+
+              IconButton(onPressed: (){}, icon: FaIcon(FontAwesomeIcons.solidPenToSquare,size: 15,))
+            ],),
+          ),
+////////////// part bta3 tab veiw
+
+        TabBar(
+          labelColor: Colors.black,
+      controller: _tabController,
+
+      tabs:[
+            Tab(text: "Personal Info",),
+            Tab(text: "My Wallet",),
+            Tab(text: "Token Bouns",),
+          ],
+
+        ),
+          Expanded(child: TabBarView(
+            children: [
+              PersonalInfo(),
+              MyWallet(),
+              TokenBnus()
+            ],
+          ))
+
+
+        ],
+      ),
+    );
+        });
+  }
+}
+/*
+DefaultTabController(
       length: 3,
 
       child: Scaffold(
@@ -107,16 +196,6 @@ flexibleSpace:Column(
         ),
 
 
-
-
-
-
-
-
-
-
-
       ),
-    );});
-  }
-}
+    );
+ */

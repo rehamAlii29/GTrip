@@ -16,6 +16,7 @@ import 'package:gtrip/modules/AppHome.dart';
 import 'package:gtrip/modules/Help.dart';
 import 'package:gtrip/modules/History.dart';
 import 'package:gtrip/modules/HomeScreen.dart';
+import 'package:gtrip/modules/MoreScreens.dart/Personalinfo.dart';
 import 'package:twitter_login/twitter_login.dart';
 import 'package:github_sign_in/github_sign_in.dart';
 
