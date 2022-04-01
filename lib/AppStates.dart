@@ -31,6 +31,8 @@ class UserSignupErrorState extends AppStates{
 }
 
 class UserLoginSuccessState extends AppStates{
+  String?userid;
+  UserLoginSuccessState(this.userid);
   // user id
 }
 class UserLoginErrorState extends AppStates{
@@ -38,27 +40,40 @@ class UserLoginErrorState extends AppStates{
   UserLoginErrorState(this.onError);
 }
 
-class GithubSigninSuccessState extends AppStates{}
+class GithubSigninSuccessState extends AppStates{
+  String?userid;
+  GithubSigninSuccessState(this.userid);
+}
 class GithubSigninErrorState extends AppStates{
   String? onError;
   GithubSigninErrorState(this.onError);
 }
 
-class GoogleSignInSuccessState extends AppStates{}
+class GoogleSignInSuccessState extends AppStates{
+  String?userid;
+  GoogleSignInSuccessState(this.userid);
+}
 class GoogleSignInErrorState extends AppStates{
 
   final String? onError;
   GoogleSignInErrorState(this.onError);
 }
-class TwitterSignInSuccessState extends AppStates{}
+class TwitterSignInSuccessState extends AppStates{
+  String?userid;
+  TwitterSignInSuccessState(this.userid);
+}
 class TwitterSignInErrorState extends AppStates{
   String? onError;
   TwitterSignInErrorState(this.onError);
 }
 
-class FacebookSignInSuccessState extends AppStates{}
+class FacebookSignInSuccessState extends AppStates{
+  String?userid;
+  FacebookSignInSuccessState(this.userid);
+}
 class FacebookSignInErrorState extends AppStates{
   String? onError;
   FacebookSignInErrorState(this.onError);
 }
 class GetDatasucces extends AppStates{}
+class SignOutSuccess extends AppStates{}

@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart' ;
 import 'package:gtrip/AppStates.dart';
+import 'package:gtrip/CasheHelper.dart';
 import 'package:gtrip/Constant/const.dart';
 import 'package:gtrip/models/ClientModel.dart';
 import 'package:gtrip/modules/AppHome.dart';
@@ -159,6 +160,11 @@ emit(UserSignupErrorState(error.message.toString()));
   rememberMeFunction() {
     rememberMeChecked = !rememberMeChecked;
     emit(RememberMeCheked());
+if(rememberMeChecked == true){
+
+
+print(userid);}
+
 
   }
 
@@ -172,9 +178,15 @@ emit(UserSignupErrorState(error.message.toString()));
 }
       ){
     auth.signInWithEmailAndPassword(email: email!, password: password!).then((value) {
-      User? currentuser = FirebaseAuth.instance.currentUser;
-      userid = currentuser!.uid;
-emit(UserLoginSuccessState());
+    //  User? currentuser = FirebaseAuth.instance.currentUser;
+    //  userid = currentuser!.uid;
+      if(rememberMeChecked)
+        CasheHelper.saveData(value: value.user!.uid);
+
+      getClientDataFromFireStor(value.user!.uid);
+
+emit(UserLoginSuccessState(value.user!.uid));
+
     }).catchError((onError){
       emit(UserLoginErrorState(onError.toString()));
     });
@@ -194,14 +206,15 @@ emit(UserLoginSuccessState());
         idToken: googleSignInAuthentication.idToken,
         accessToken: googleSignInAuthentication.accessToken
     );
+
   auth.signInWithCredential(authCredential).then((value) {
-userid= value.user!.uid;
+//userid= value.user!.uid;
     createuser(fullname: value.user!.displayName,
         email: value.user!.email,
         phone: value.user!.phoneNumber,
         username: value.user!.refreshToken,
         userid: value.user!.uid);
-     emit(GoogleSignInSuccessState());
+     emit(GoogleSignInSuccessState(value.user!.uid));
    }).catchError((exception){
 print(exception.message.toString());
     emit(GoogleSignInErrorState(exception.message.toString()));
@@ -229,17 +242,33 @@ print(exception.message.toString());
   }
 
   Future<void> signInWithGitHub( ) async {
-    User? user = await FirebaseAuthOAuth()
-        .openSignInFlow("github.com", ["email"], {"locale": "en"});
-
+    FirebaseAuthOAuth()
+        .openSignInFlow("github.com", ["email"], {"locale": "en"}).then((value) {
+   //   userid= value!.uid;
+      createuser(fullname: value!.displayName,
+          email: value.email,
+          phone: value.phoneNumber,
+          username: value.displayName,
+          userid: value.uid);
+      emit(GithubSigninSuccessState(value.uid));
+    }).catchError((onError));
+emit(GithubSigninErrorState(onError.toString()));
   }
 
      // Twitter
   Future<void> signInWithTwitter() async {
-    User? user = await FirebaseAuthOAuth()
-        .openSignInFlow("twitter.com", ["email"], {"locale": "en"});
-print(user!.displayName);
-emit(TwitterSignInSuccessState());
+   await FirebaseAuthOAuth()
+        .openSignInFlow("twitter.com", ["email"], {"locale": "en"}).then((value) {
+
+     createuser(fullname: value!.displayName,
+         email: value.email,
+         phone: value.phoneNumber,
+         username: value.displayName,
+         userid: value.uid);
+     emit(TwitterSignInSuccessState(value.uid));
+   }).catchError((onError));
+   emit(TwitterSignInErrorState(onError.toString()));
+
 
 
 
@@ -258,7 +287,8 @@ emit(TwitterSignInSuccessState());
 
     auth.signInWithCredential(facebookCredential).then((value) {
 
-      userid= value.user!.uid;
+
+     // userid= value.user!.uid;
       createuser(fullname: value.user!.displayName,
           image: value.user!.photoURL,
           email: value.user!.email,
@@ -266,7 +296,7 @@ emit(TwitterSignInSuccessState());
           username: value.user!.displayName,
           userid: value.user!.uid);
 
-      emit(FacebookSignInSuccessState());
+      emit(FacebookSignInSuccessState(value.user!.uid));
     }).catchError((onError) {
       emit(FacebookSignInErrorState(onError.toString()));
     });
@@ -278,6 +308,7 @@ clientModel=ClientModel.fromfirebase(value.data() as Map<String, dynamic>);
 
     });
 }
+
 updateClientData({
 
   String?email,
@@ -298,5 +329,24 @@ fullname: clientModel!.fullname,
     );
 }
 
+
+
+
+
+// SignOut
+signOut() {
+    auth.signOut();
+    userid='';
+emit(SignOutSuccess());
+}
+
+/*
+emailChearch(String? email)async{
+    QuerySnapshot foundmail=
+      await  FirebaseFirestore.instance.collection('Clients').where('email' ,isEqualTo: email).get();
+
+    print(foundmail.docs[1]['email']);
+
+}*/
 
 }

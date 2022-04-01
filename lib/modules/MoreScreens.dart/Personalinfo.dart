@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gtrip/AppCubit.dart';
 import 'package:gtrip/AppStates.dart';
 import 'package:gtrip/models/ClientModel.dart';
+import 'package:gtrip/modules/SplashScreen.dart';
 
 class PersonalInfo extends StatefulWidget {
   const PersonalInfo({Key? key}) : super(key: key);
@@ -20,7 +21,12 @@ class _PersonalInfoState extends State<PersonalInfo> {
   @override
   Widget build(BuildContext context) {
     return  BlocConsumer<AppCubit, AppStates>(
-        listener: (context, state){},
+        listener: (context, state){
+          if(state is SignOutSuccess){
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                SplashScreen()), (Route<dynamic> route) => false);
+          }
+        },
         builder: (context, state) {
 
           return
@@ -63,6 +69,20 @@ decoration: InputDecoration(
                   IconButton(onPressed: (){}, icon: FaIcon(FontAwesomeIcons.solidPenToSquare,size: 20,)),
                 ],
               ),
+              Expanded(child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+
+                children: [
+                 FloatingActionButton(onPressed: (){
+                   AppCubit.get(context).signOut();
+                 },
+                   backgroundColor: Colors.red,
+                 tooltip: "SignOut",
+                   child: FaIcon(FontAwesomeIcons.powerOff),
+
+                 )
+                ],
+              ))
           ],),
           
 

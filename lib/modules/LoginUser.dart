@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gtrip/AppCubit.dart';
 import 'package:gtrip/AppStates.dart';
+import 'package:gtrip/CasheHelper.dart';
 import 'package:gtrip/models/ClientModel.dart';
 import 'package:gtrip/modules/HomeScreen.dart';
 import 'package:gtrip/modules/MoreScreens.dart/MoreScreen.dart';
@@ -11,6 +12,8 @@ import 'package:gtrip/modules/UserRegister.dart';
 import 'package:flutter_remix/flutter_remix.dart' ;
 import 'package:motion_toast/motion_toast.dart';
 import 'package:motion_toast/resources/arrays.dart';
+
+import '../Constant/const.dart';
 
 class LoginUser extends StatefulWidget {
   const LoginUser({Key? key}) : super(key: key);
@@ -29,7 +32,9 @@ class _LoginUserState extends State<LoginUser> {
     return  BlocConsumer<AppCubit, AppStates>(
       listener: (context, state){
       if(state is UserLoginSuccessState){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const PersonalInfo()));
+userid= state.userid!;
+       //print(state.userid);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreen()));
       }
       if(state is UserLoginErrorState){
         MotionToast.warning(
@@ -42,10 +47,11 @@ class _LoginUserState extends State<LoginUser> {
           iconType: ICON_TYPE.materialDesign,
         ).show(context);
       }
-      if (state is TwitterSignInSuccessState){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>PersonalInfo()));}
+      if (state is TwitterSignInSuccessState){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));}
       if(State is GoogleSignInSuccessState)
         {
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const PersonalInfo()));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const MoreScreen()));
         }
       if (state is GoogleSignInErrorState){
 
@@ -63,8 +69,9 @@ class _LoginUserState extends State<LoginUser> {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> HomeScreen()));
       }
       if (state is GithubSigninSuccessState){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>PersonalInfo()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MoreScreen()));
       }
+
     },builder: (context, state) {
       appCubit = BlocProvider.of<AppCubit>(context);
       return Scaffold(
