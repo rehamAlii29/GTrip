@@ -1,10 +1,14 @@
 
 
+
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_oauth/firebase_auth_oauth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,24 +27,27 @@ import 'package:twitter_login/twitter_login.dart';
 import 'package:github_sign_in/github_sign_in.dart';
 
 import 'modules/MoreScreens.dart/MoreScreen.dart';
-
+import 'package:image_picker/image_picker.dart';
 
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(InitialState());
+
   static AppCubit get(context) => BlocProvider.of(context);
+
   //  who are you part
-int? vlaue ;
-ClientModel?clientModel;
-  drobDownmenu(int selectedValue){
+  int? vlaue;
+
+  ClientModel?clientModel;
+
+  drobDownmenu(int selectedValue) {
     vlaue = selectedValue;
     emit(DrobDwonButtonState());
-
   }
 
 
   // show and hide password
   bool obsecured = true;
-  IconData passwordIcon =Icons.visibility_off_outlined;
+  IconData passwordIcon = Icons.visibility_off_outlined;
 
   showAndHidePasswordFunc() {
     obsecured = !obsecured;
@@ -53,8 +60,10 @@ ClientModel?clientModel;
       emit(ShowAndHidePassword());
     }
   }
-  bool ConfirmPasswordobsecure= true;
-  IconData confirmpasswordIcon =Icons.visibility_off_outlined;
+
+  bool ConfirmPasswordobsecure = true;
+  IconData confirmpasswordIcon = Icons.visibility_off_outlined;
+
   confirmPasswordfunction() {
     ConfirmPasswordobsecure = !ConfirmPasswordobsecure;
     if (ConfirmPasswordobsecure == true) {
@@ -68,47 +77,51 @@ ClientModel?clientModel;
   }
 
 // bottom nav bar
-  int currentIndex= 0;
-  List<Widget> ScreensofNavbar= [
-   AppHome(),
+  int currentIndex = 0;
+  List<Widget> ScreensofNavbar = [
+    AppHome(),
     History(),
     Help(),
     MoreScreen()
 
   ];
-  toggelbetweenNavbarScreens(int selectedIndex){
+
+  toggelbetweenNavbarScreens(int selectedIndex) {
     currentIndex = selectedIndex;
     emit(BottomNavBarChangingSuccess());
   }
+
   //  Signup
 
 
-
-
-  userSignup(
-  {
+  userSignup({
     @required String? fullname,
     @required String? email,
     @required String? phone,
     @required String? username,
     @required String? password,
 
-}
-       )async{
+  }) async {
+    try {
+      await auth.createUserWithEmailAndPassword(
+          email: email!, password: password!);
+      userid = FirebaseAuth.instance.currentUser!.uid;
+      createuser(fullname: fullname,
+          email: email,
+          phone: phone,
+          username: username,
+          userid: userid);
+      CasheHelper.saveData(value: userid);
 
+      getClientDataFromFireStor(userid);
 
-    try
-        {
-         await  auth.createUserWithEmailAndPassword(email: email!, password: password!);
-            userid= FirebaseAuth.instance.currentUser!.uid;
-            createuser(fullname: fullname, email: email, phone: phone, username: username, userid: userid);
-        }
-          on FirebaseAuthException catch (error) {
-emit(UserSignupErrorState(error.message.toString()));
-          }
-          }
+    }
+    on FirebaseAuthException catch (error) {
+      emit(UserSignupErrorState(error.message.toString()));
+    }
+  }
 
-    /*auth.createUserWithEmailAndPassword(email: email!, password: password!).then((value) {
+  /*auth.createUserWithEmailAndPassword(email: email!, password: password!).then((value) {
       userid= FirebaseAuth.instance.currentUser!.uid;
      createuser(fullname: fullname, email: email, phone: phone, username: username, userid: userid);
 
@@ -134,64 +147,57 @@ emit(UserSignupErrorState(error.message.toString()));
     @required String? username,
     @required String?userid,
     String?image
-  }){
+  }) {
     ClientModel clientModel = ClientModel(
-      email: email,
-      phone: phone,
-      username: username,
-      image: image,
+        email: email,
+        phone: phone,
+        username: username,
+        image: image,
         userid: userid,
         fullname: fullname
     );
-    FirebaseFirestore.instance.collection('Clients').doc(userid).set(clientModel.tofirebase()).then((value) {
+    FirebaseFirestore.instance.collection('Clients').doc(userid).set(
+        clientModel.tofirebase()).then((value) {
       getClientDataFromFireStor(userid);
       //emit(ClientCreateSuccessState());
-    }).catchError((onError){
+    }).catchError((onError) {
       emit(ClientcreateError(onError.toString()));
     });
   }
 
 
-
-
-
 // Remember Me Select
-  bool rememberMeChecked= false;
+  bool rememberMeChecked = false;
+
   rememberMeFunction() {
     rememberMeChecked = !rememberMeChecked;
     emit(RememberMeCheked());
-if(rememberMeChecked == true){
-
-
-print(userid);}
-
-
+    if (rememberMeChecked == true) {
+      print(userid);
+    }
   }
 
   // firebaseAuth
   final FirebaseAuth auth = FirebaseAuth.instance;
+
   // UserLogin
-  userLoginFunction(
-  {
+  userLoginFunction({
     @required String? email,
     @required String?password,
-}
-      ){
-    auth.signInWithEmailAndPassword(email: email!, password: password!).then((value) {
-    //  User? currentuser = FirebaseAuth.instance.currentUser;
-    //  userid = currentuser!.uid;
-      if(rememberMeChecked)
+  }) {
+    auth.signInWithEmailAndPassword(email: email!, password: password!).then((
+        value) {
+      //  User? currentuser = FirebaseAuth.instance.currentUser;
+      //  userid = currentuser!.uid;
+      if (rememberMeChecked)
         CasheHelper.saveData(value: value.user!.uid);
 
       getClientDataFromFireStor(value.user!.uid);
 
-emit(UserLoginSuccessState(value.user!.uid));
-
-    }).catchError((onError){
+      emit(UserLoginSuccessState(value.user!.uid));
+    }).catchError((onError) {
       emit(UserLoginErrorState(onError.toString()));
     });
-
-
   }
 
   // googleSignin
@@ -207,71 +213,72 @@ emit(UserLoginSuccessState(value.user!.uid));
         accessToken: googleSignInAuthentication.accessToken
     );
 
-  auth.signInWithCredential(authCredential).then((value) {
+    auth.signInWithCredential(authCredential).then((value) {
 //userid= value.user!.uid;
-    createuser(fullname: value.user!.displayName,
-        email: value.user!.email,
-        phone: value.user!.phoneNumber,
-        username: value.user!.refreshToken,
-        userid: value.user!.uid);
-     emit(GoogleSignInSuccessState(value.user!.uid));
-   }).catchError((exception){
-print(exception.message.toString());
-    emit(GoogleSignInErrorState(exception.message.toString()));
+      createuser(fullname: value.user!.displayName,
+          email: value.user!.email,
+          phone: value.user!.phoneNumber??"",
+          username: value.user!.displayName??value.user!.email,
+          image: "",
+          userid: value.user!.uid);
+      getClientDataFromFireStor(value.user!.uid);
 
-
-
-
-   });
-
-
-  /*  if (googleSignInAccount != null) {
-      final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount
-          .authentication;
-      final AuthCredential authCredential = GoogleAuthProvider.credential(
-          idToken: googleSignInAuthentication.idToken,
-          accessToken: googleSignInAuthentication.accessToken
-      );
-      UserCredential result = await auth.signInWithCredential(authCredential);
-
-      print(result.user!.email);
-      emit(GoogleSignInSuccessState());
-    }
-    else
-      emit(GoogleSignInErrorState());*/
+      emit(UserLoginSuccessState(value.user!.uid));
+      emit(GoogleSignInSuccessState(value.user!.uid));
+    }).catchError((exception) {
+      print(exception.message.toString());
+      emit(GoogleSignInErrorState(exception.message.toString()));
+    });
   }
 
-  Future<void> signInWithGitHub( ) async {
-    FirebaseAuthOAuth()
-        .openSignInFlow("github.com", ["email"], {"locale": "en"}).then((value) {
-   //   userid= value!.uid;
+  Future<void> signInWithGitHub() async {
+
+User? githubuser = await  FirebaseAuthOAuth().openSignInFlow("github.com", ["email", "username"]);
+createuser(fullname:githubuser!.displayName?? "${githubuser.email}"
+    , email: githubuser.email,
+    phone: githubuser.phoneNumber,
+    username: githubuser.displayName?? "${githubuser.email}",
+    userid: githubuser.uid);
+print(githubuser.displayName);
+getClientDataFromFireStor(githubuser.uid);
+
+emit(UserLoginSuccessState(githubuser.uid));
+emit(GithubSigninSuccessState(githubuser.uid));
+  /*await  FirebaseAuthOAuth()
+        .openSignInFlow("github.com", ["email"], {"locale": "en"}).then((
+        value) {
+
+
+      //   userid= value!.uid;
       createuser(fullname: value!.displayName,
           email: value.email,
           phone: value.phoneNumber,
           username: value.displayName,
           userid: value.uid);
+      getClientDataFromFireStor(value.uid);
+
+      emit(UserLoginSuccessState(value.uid));
       emit(GithubSigninSuccessState(value.uid));
     }).catchError((onError));
-emit(GithubSigninErrorState(onError.toString()));
+    emit(GithubSigninErrorState(onError.toString()));*/
   }
 
-     // Twitter
+  // Twitter
   Future<void> signInWithTwitter() async {
-   await FirebaseAuthOAuth()
-        .openSignInFlow("twitter.com", ["email"], {"locale": "en"}).then((value) {
+    await FirebaseAuthOAuth()
+        .openSignInFlow("twitter.com", ["email"], {"locale": "en"}).then((
+        value) {
+      createuser(fullname: value!.displayName,
+          email: value.email,
+          phone: value.phoneNumber,
+          username: value.displayName,
+          userid: value.uid);
+      getClientDataFromFireStor(value.uid);
 
-     createuser(fullname: value!.displayName,
-         email: value.email,
-         phone: value.phoneNumber,
-         username: value.displayName,
-         userid: value.uid);
-     emit(TwitterSignInSuccessState(value.uid));
-   }).catchError((onError));
-   emit(TwitterSignInErrorState(onError.toString()));
-
-
-
-
+      emit(UserLoginSuccessState(value.uid));
+      emit(TwitterSignInSuccessState(value.uid));
+    }).catchError((onError));
+    emit(TwitterSignInErrorState(onError.toString()));
   }
 
 
@@ -283,70 +290,88 @@ emit(GithubSigninErrorState(onError.toString()));
 
     final AuthCredential facebookCredential =
     FacebookAuthProvider.credential(result.accessToken!.token);
-    print(facebookCredential.token);
+
 
     auth.signInWithCredential(facebookCredential).then((value) {
 
+   createuser(fullname: value.user!.displayName,
+    image: value.user!.photoURL,
+    email: value.user!.email,
+    phone: value.user!.phoneNumber,
+    username: value.user!.displayName,
+    userid: value.user!.uid);
 
-     // userid= value.user!.uid;
-      createuser(fullname: value.user!.displayName,
-          image: value.user!.photoURL,
-          email: value.user!.email,
-          phone: value.user!.phoneNumber,
-          username: value.user!.displayName,
-          userid: value.user!.uid);
+emit(FacebookSignInSuccessState(value.user!.uid));
+   getClientDataFromFireStor(value.user!.uid);
 
-      emit(FacebookSignInSuccessState(value.user!.uid));
+   emit(UserLoginSuccessState(value.user!.uid));
+
     }).catchError((onError) {
       emit(FacebookSignInErrorState(onError.toString()));
     });
   }
 
-getClientDataFromFireStor(String?userid) async{
-    FirebaseFirestore.instance.collection('Clients').doc(userid).get().then((value) {
-clientModel=ClientModel.fromfirebase(value.data() as Map<String, dynamic>);
-
+  getClientDataFromFireStor(String?userid) async {
+    FirebaseFirestore.instance.collection('Clients').doc(userid).get().then((
+        value) {
+      clientModel =
+          ClientModel.fromfirebase(value.data() as Map<String, dynamic>);
+      emit(GetDatasucces());
     });
-}
-
-updateClientData({
-
-  String?email,
-  String? username ,
-  String?phoneNumber,
-  String?profilePhoto
-
-}){
-    ClientModel clientModelupdate = ClientModel(
-fullname: clientModel!.fullname,
-      userid: clientModel!.userid,
-      username: username??clientModel!.username,
-      phone: phoneNumber??clientModel!.phone,
-      email: email??clientModel!.email,
-      image: profilePhoto??clientModel!.image
-
-
-    );
-}
-
-
-
+  }
 
 
 // SignOut
-signOut() {
-    auth.signOut();
-    userid='';
-emit(SignOutSuccess());
-}
+  signOut() async{
+  await  auth.signOut();
+  CasheHelper.cashe!.clear();
+    emit(SignOutSuccess());
+  }
 
-/*
-emailChearch(String? email)async{
-    QuerySnapshot foundmail=
-      await  FirebaseFirestore.instance.collection('Clients').where('email' ,isEqualTo: email).get();
 
-    print(foundmail.docs[1]['email']);
 
-}*/
+  File?profile_image;
+  final _picker = ImagePicker();
+
+  Future<void> updateprofileimage() async {
+    XFile? imagepicking = await
+    _picker.pickImage(source: ImageSource.gallery);
+    if (imagepicking != null) {
+      profile_image = File(imagepicking.path);
+      FirebaseStorage.instance.ref().child('Clients/${Uri
+          .file(profile_image!.path)
+          .pathSegments
+          .last}').putFile(profile_image!).then((value) {
+        value.ref.getDownloadURL().then((value) {
+          FirebaseFirestore.instance.collection('Clients').doc(userid).update(
+              {'image': value});
+          getClientDataFromFireStor(userid);
+        });
+      });
+    }
+  }
+
+  updateNameEmailPhone({String? username,
+    String? email,
+    String?phone
+  }) async {
+    ClientModel clientupdate = ClientModel(
+      fullname: clientModel!.fullname,
+      userid: clientModel!.userid,
+      image: clientModel!.image,
+      email: email ?? clientModel!.email,
+      username: username ?? clientModel!.username,
+      phone: phone ?? clientModel!.phone,
+
+
+    );
+    FirebaseFirestore.instance.collection('Clients').doc(userid).update(
+        clientupdate.tofirebase()).then((value) {
+      getClientDataFromFireStor(clientModel!.userid);
+    });
+  }
+
+
+
 
 }

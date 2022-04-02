@@ -48,29 +48,23 @@ userid= state.userid!;
         ).show(context);
       }
       if (state is TwitterSignInSuccessState){
+        userid= state.userid!;
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));}
-      if(State is GoogleSignInSuccessState)
+      if(state is GoogleSignInSuccessState)
         {
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const MoreScreen()));
+          userid= state.userid!;
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreen()));
         }
-      if (state is GoogleSignInErrorState){
 
-        MotionToast.warning(
-          description:  Text(state.onError!),
-          borderRadius: 5,
-          title: const Text("Login Error",
-          style: TextStyle(
-              fontWeight: FontWeight.bold
-          ),),
-          iconType: ICON_TYPE.materialDesign,
-        ).show(context);
-      }
       if (state is FacebookSignInSuccessState){
+        userid= state.userid!;
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> HomeScreen()));
       }
       if (state is GithubSigninSuccessState){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MoreScreen()));
+        userid= state.userid!;
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
       }
+
 
     },builder: (context, state) {
       appCubit = BlocProvider.of<AppCubit>(context);

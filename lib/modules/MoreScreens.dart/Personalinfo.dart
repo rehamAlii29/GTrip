@@ -16,12 +16,14 @@ class PersonalInfo extends StatefulWidget {
   _PersonalInfoState createState() => _PersonalInfoState();
 }
 
-
+var emailController = TextEditingController();
+var phoneController = TextEditingController();
 class _PersonalInfoState extends State<PersonalInfo> {
   @override
   Widget build(BuildContext context) {
     return  BlocConsumer<AppCubit, AppStates>(
         listener: (context, state){
+
           if(state is SignOutSuccess){
             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
                 SplashScreen()), (Route<dynamic> route) => false);
@@ -42,6 +44,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
             children: [
                 Expanded(
                   child: TextFormField(
+                    controller: emailController,
 decoration: InputDecoration(
   border: OutlineInputBorder()
 
@@ -49,7 +52,10 @@ decoration: InputDecoration(
                   ),
                 ),
                 SizedBox(width: 20,),
-                IconButton(onPressed: (){}, icon: FaIcon(FontAwesomeIcons.solidPenToSquare,size: 20,)),
+                IconButton(onPressed: (){
+                  AppCubit.get(context).updateNameEmailPhone(email: emailController.text);
+
+                }, icon: FaIcon(FontAwesomeIcons.solidPenToSquare,size: 20,)),
             ],
           ),
          SizedBox(height: 20,),
@@ -59,6 +65,7 @@ decoration: InputDecoration(
                 children: [
                   Expanded(
                     child: TextFormField(
+                      controller: phoneController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder()
 
@@ -66,7 +73,9 @@ decoration: InputDecoration(
                     ),
                   ),
                   SizedBox(width: 20,),
-                  IconButton(onPressed: (){}, icon: FaIcon(FontAwesomeIcons.solidPenToSquare,size: 20,)),
+                  IconButton(onPressed: (){
+                    AppCubit.get(context).updateNameEmailPhone(phone: phoneController.text);
+                  }, icon: FaIcon(FontAwesomeIcons.solidPenToSquare,size: 20,)),
                 ],
               ),
               Expanded(child: Row(
@@ -74,7 +83,9 @@ decoration: InputDecoration(
 
                 children: [
                  FloatingActionButton(onPressed: (){
+
                    AppCubit.get(context).signOut();
+
                  },
                    backgroundColor: Colors.red,
                  tooltip: "SignOut",

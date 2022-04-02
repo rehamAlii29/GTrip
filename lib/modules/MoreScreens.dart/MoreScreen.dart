@@ -19,6 +19,8 @@ class MoreScreen extends StatefulWidget {
   State<MoreScreen> createState() => _MoreScreenState();
 }
 
+var usernamecontroller = TextEditingController();
+
 class _MoreScreenState extends State<MoreScreen>
     with SingleTickerProviderStateMixin
 {
@@ -31,9 +33,12 @@ void initState() {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit,AppStates>(
-        listener: (context , state){},
+        listener: (context , state){
+
+        },
     builder: (context , state){
       var data = AppCubit.get(context).clientModel;
+      usernamecontroller.text!= data!.username;
     return Container(
       child: Column(
         children: [
@@ -63,11 +68,14 @@ void initState() {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CircleAvatar(
+              
                   radius: 50,
-                  backgroundImage: NetworkImage("${data!.image}"),
+                  backgroundImage: NetworkImage('${data.image}'),
 
                 ),
-                IconButton(onPressed: (){}, icon:FaIcon(FontAwesomeIcons.solidPenToSquare, size: 20,))
+                IconButton(onPressed: (){
+                  AppCubit.get(context).updateprofileimage();
+                }, icon:FaIcon(FontAwesomeIcons.solidPenToSquare, size: 20,))
               ],
             ),
           )
@@ -79,10 +87,15 @@ void initState() {
           Padding(
             padding: const EdgeInsets.only(left: 20,),
             child: Row(children: [
-              Text("${data.username}", style: TextStyle(color: Colors.black, fontSize: 20)),
+Container(height: 40,width: 80,
 
+  child: TextFormField(
+    controller: usernamecontroller,
+  ),),
 
-              IconButton(onPressed: (){}, icon: FaIcon(FontAwesomeIcons.solidPenToSquare,size: 15,))
+              IconButton(onPressed: (){
+                AppCubit.get(context).updateNameEmailPhone(username: usernamecontroller!.text);
+              }, icon: FaIcon(FontAwesomeIcons.solidPenToSquare,size: 15,))
             ],),
           ),
 ////////////// part bta3 tab veiw
@@ -114,91 +127,3 @@ void initState() {
         });
   }
 }
-/*
-DefaultTabController(
-      length: 3,
-
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          toolbarHeight: MediaQuery.of(context).size.height*.3,
-
-toolbarOpacity: 0,
-primary: false,
-titleSpacing: 0,
-elevation: 0,
-centerTitle: true,
-flexibleSpace:Column(
-  children: [
-        Container(
-
-    height: MediaQuery.of(context).size.height*.3,
-    width: MediaQuery.of(context).size.width,
-    child: Stack(
-      alignment: AlignmentDirectional.bottomStart,
-      children: [
-              Container(
-                height: MediaQuery.of(context).size.height*.3,
-                width: MediaQuery.of(context).size.width,
-                child: Image.asset('assets/images/Vector4.png',
-
-                  fit: BoxFit.fill,
-
-          ),
-              ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20,bottom: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CircleAvatar(
-                  radius: 50,
-                  backgroundImage: NetworkImage('${AppCubit.get(context).imageoffacebook}'),
-
-                ),
-                IconButton(onPressed: (){}, icon:FaIcon(FontAwesomeIcons.solidPenToSquare, size: 20,))
-              ],
-            ),
-          )
-      ],
-    ) ,
-            ),
-
-    Padding(
-      padding: const EdgeInsets.only(left: 20,),
-      child: Row(children: [
-        Text("User name", style: TextStyle(color: Colors.black, fontSize: 20)),
-
-
-        IconButton(onPressed: (){}, icon: FaIcon(FontAwesomeIcons.solidPenToSquare,size: 15,))
-      ],),
-    ),
-
-  ],
-),
-
-        bottom: TabBar(
-          labelColor: Colors.black,
-
-          tabs: [
-          Tab(text: "Personal Info",),
-          Tab(text: "My Wallet",),
-          Tab(text: "Token Bouns",),
-        ],
-
-        ),
-        ),
-        body: TabBarView(
-          children:[
-            PersonalInfo(),
-            MyWallet(),
-            TokenBnus()
-
-          ],
-        ),
-
-
-      ),
-    );
- */

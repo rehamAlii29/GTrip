@@ -77,3 +77,4 @@ class FacebookSignInErrorState extends AppStates{
 }
 class GetDatasucces extends AppStates{}
 class SignOutSuccess extends AppStates{}
+class UpdateNamaemailphoneSuccess extends AppStates{}
