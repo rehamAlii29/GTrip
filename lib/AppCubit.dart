@@ -121,23 +121,6 @@ class AppCubit extends Cubit<AppStates> {
     }
   }
 
-  /*auth.createUserWithEmailAndPassword(email: email!, password: password!).then((value) {
-      userid= FirebaseAuth.instance.currentUser!.uid;
-     createuser(fullname: fullname, email: email, phone: phone, username: username, userid: userid);
-
-
-    }).catchError((onError){
-      FirebaseAuthException ?exception;
-
-      switch(exception!.code)
-      {
-        case "ERROR_EMAIL_ALREADY_IN_USE":
-          onError= "The email address is already in use by another account";
-      }
-      print(onError);
-      emit(UserSignupErrorState(onError.toString()));
-    });
-*/
 
 
   // create user in firebase
@@ -233,34 +216,18 @@ class AppCubit extends Cubit<AppStates> {
 
   Future<void> signInWithGitHub() async {
 
-User? githubuser = await  FirebaseAuthOAuth().openSignInFlow("github.com", ["email", "username"]);
+User? githubuser = await  FirebaseAuthOAuth().openSignInFlow("github.com", ["email", "Name"]);
 createuser(fullname:githubuser!.displayName?? "${githubuser.email}"
     , email: githubuser.email,
     phone: githubuser.phoneNumber,
     username: githubuser.displayName?? "${githubuser.email}",
     userid: githubuser.uid);
 print(githubuser.displayName);
-getClientDataFromFireStor(githubuser.uid);
+
 
 emit(UserLoginSuccessState(githubuser.uid));
 emit(GithubSigninSuccessState(githubuser.uid));
-  /*await  FirebaseAuthOAuth()
-        .openSignInFlow("github.com", ["email"], {"locale": "en"}).then((
-        value) {
-
-
-      //   userid= value!.uid;
-      createuser(fullname: value!.displayName,
-          email: value.email,
-          phone: value.phoneNumber,
-          username: value.displayName,
-          userid: value.uid);
-      getClientDataFromFireStor(value.uid);
-
-      emit(UserLoginSuccessState(value.uid));
-      emit(GithubSigninSuccessState(value.uid));
-    }).catchError((onError));
-    emit(GithubSigninErrorState(onError.toString()));*/
+  
   }
 
   // Twitter
@@ -350,12 +317,13 @@ emit(FacebookSignInSuccessState(value.user!.uid));
       });
     }
   }
+ClientModel Update = ClientModel();
 
   updateNameEmailPhone({String? username,
     String? email,
     String?phone
   }) async {
-    ClientModel clientupdate = ClientModel(
+    Update = ClientModel(
       fullname: clientModel!.fullname,
       userid: clientModel!.userid,
       image: clientModel!.image,
@@ -365,10 +333,13 @@ emit(FacebookSignInSuccessState(value.user!.uid));
 
 
     );
+
     FirebaseFirestore.instance.collection('Clients').doc(userid).update(
-        clientupdate.tofirebase()).then((value) {
-      getClientDataFromFireStor(clientModel!.userid);
+        Update.tofirebase()).then((value) {
+      getClientDataFromFireStor(Update!.userid);
+
     });
+
   }
 
 

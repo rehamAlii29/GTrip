@@ -38,7 +38,7 @@ void initState() {
         },
     builder: (context , state){
       var data = AppCubit.get(context).clientModel;
-      usernamecontroller.text!= data!.username;
+      usernamecontroller.text= data!.username!;
     return Container(
       child: Column(
         children: [
@@ -87,7 +87,7 @@ void initState() {
           Padding(
             padding: const EdgeInsets.only(left: 20,),
             child: Row(children: [
-Container(height: 40,width: 80,
+Container(height: 40,width:100 ,
 
   child: TextFormField(
     controller: usernamecontroller,
@@ -95,6 +95,7 @@ Container(height: 40,width: 80,
 
               IconButton(onPressed: (){
                 AppCubit.get(context).updateNameEmailPhone(username: usernamecontroller!.text);
+                usernamecontroller.text= AppCubit.get(context).Update.username!;
               }, icon: FaIcon(FontAwesomeIcons.solidPenToSquare,size: 15,))
             ],),
           ),
