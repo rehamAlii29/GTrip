@@ -63,8 +63,7 @@
                <data android:scheme="gtriptwitter"/>
            </intent-filter>
        </activity>
-       <meta-data android:name="com.google.android.geo.API_KEY"
-           android:value="AIzaSyCyowUPCFLCvNkHze5oaPEjRQq2paVh0tE"/>
+
 
    </application>
 
