@@ -21,8 +21,7 @@
                  the Android process has started. This theme is visible to the user
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. -->
-            <meta-data android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyD5PHNpMGrsOSKxrlj2UKhkNYvs6hKfXd8"/>
+
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
@@ -64,7 +63,8 @@
                <data android:scheme="gtriptwitter"/>
            </intent-filter>
        </activity>
-
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyCyowUPCFLCvNkHze5oaPEjRQq2paVh0tE"/>
 
    </application>
 
