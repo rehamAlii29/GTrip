@@ -49,19 +49,23 @@ userid= state.userid!;
       }
       if (state is TwitterSignInSuccessState){
         userid= state.userid!;
+        CasheHelper.saveData(value: state.userid!);
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));}
       if(state is GoogleSignInSuccessState)
         {
           userid= state.userid!;
+          CasheHelper.saveData(value: state.userid!);
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreen()));
         }
 
       if (state is FacebookSignInSuccessState){
         userid= state.userid!;
+        CasheHelper.saveData(value: state.userid!);
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> HomeScreen()));
       }
       if (state is GithubSigninSuccessState){
         userid= state.userid!;
+        CasheHelper.saveData(value: state.userid!);
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
       }
 
