@@ -10,24 +10,32 @@ import 'package:gtrip/modules/MoreScreens.dart/Personalinfo.dart';
 
 import '../../models/ClientModel.dart';
 import 'TokenBnus.dart';
+TabController? tabController;
 
 class MoreScreen extends StatefulWidget {
-  const MoreScreen({Key? key}) : super(key: key);
+
+@override
+
 
   @override
 
-  State<MoreScreen> createState() => _MoreScreenState();
+  State<MoreScreen> createState() => MoreScreenState();
+
 }
+
 
 var usernamecontroller = TextEditingController();
 
-class _MoreScreenState extends State<MoreScreen>
+class MoreScreenState extends State<MoreScreen>
     with SingleTickerProviderStateMixin
 {
-  TabController? _tabController;
+
+
 @override
+
 void initState() {
-  _tabController = new  TabController(length: 3, vsync: this);
+  tabController = new  TabController(length: 3, vsync: this);
+
   super.initState();
 }
   @override
@@ -101,20 +109,20 @@ Container(height: 40,width:100 ,
           ),
 ////////////// part bta3 tab veiw
 
-        TabBar(
-          labelColor: Colors.black,
-      controller: _tabController,
+          TabBar(
+            labelColor: Colors.black,
+            controller: tabController,
 
-      tabs:[
-            Tab(text: "Personal Info",),
-            Tab(text: "My Wallet",),
-            Tab(text: "Token Bouns",),
-          ],
+            tabs:const [
+              Tab(text: "Personal Info",),
+              Tab(text: "My Wallet",),
+              Tab(text: "Token Bouns",),
+            ],
 
-        ),
+          ),
           Expanded(child: TabBarView(
-            controller: _tabController,
-            children: [
+            controller: tabController,
+            children: const [
               PersonalInfo(),
               MyWallet(),
               TokenBnus()
@@ -125,6 +133,6 @@ Container(height: 40,width:100 ,
         ],
       ),
     );
-        });
+    });
   }
 }
