@@ -33,7 +33,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
 
           return
              Padding(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(25),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start  ,
             children: [
@@ -78,22 +78,8 @@ decoration: InputDecoration(
                   }, icon: FaIcon(FontAwesomeIcons.solidPenToSquare,size: 20,)),
                 ],
               ),
-              Expanded(child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
 
-                children: [
-                 FloatingActionButton(onPressed: (){
 
-                   AppCubit.get(context).signOut();
-
-                 },
-                   backgroundColor: Colors.red,
-                 tooltip: "SignOut",
-                   child: FaIcon(FontAwesomeIcons.powerOff),
-
-                 )
-                ],
-              ))
           ],),
           
 

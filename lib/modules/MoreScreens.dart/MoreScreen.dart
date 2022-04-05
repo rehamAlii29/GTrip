@@ -70,20 +70,19 @@ void initState() {
           ),
           //  circular avatar
           Padding(
-            padding: const EdgeInsets.only(left: 20,bottom: 15),
+            padding: const EdgeInsets.only(left: 20,bottom: 1),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CircleAvatar(
-              
-                  radius: 50,
+                  radius: 40,
                   backgroundImage: NetworkImage('${data.image}'),
 
                 ),
                 IconButton(onPressed: (){
                   AppCubit.get(context).updateprofileimage();
-                }, icon:FaIcon(FontAwesomeIcons.solidPenToSquare, size: 20,))
+                }, icon:FaIcon(FontAwesomeIcons.solidPenToSquare, size: 15,))
               ],
             ),
           )
@@ -92,27 +91,35 @@ void initState() {
       ),
 
         ///////////////////
-          Padding(
-            padding: const EdgeInsets.only(left: 20,),
-            child: Row(children: [
-Container(height: 40,width:100 ,
+        Padding(
+              padding: const EdgeInsets.only(left: 20,top: 0),
+              child: Row(
+
+
+                children: [
+Container(height: 20,width:100 ,
 
   child: TextFormField(
     controller: usernamecontroller,
-  ),),
+    decoration: InputDecoration.collapsed(border: InputBorder.none, hintText: ''),
 
-              IconButton(onPressed: (){
-                AppCubit.get(context).updateNameEmailPhone(username: usernamecontroller!.text);
-                usernamecontroller.text= AppCubit.get(context).Update.username!;
-              }, icon: FaIcon(FontAwesomeIcons.solidPenToSquare,size: 15,))
-            ],),
-          ),
+    ),
+  ),
+
+                IconButton(onPressed: (){
+                  AppCubit.get(context).updateNameEmailPhone(username: usernamecontroller.text);
+
+                }, icon: FaIcon(FontAwesomeIcons.solidPenToSquare,size: 15,))
+              ],),
+            ),
+
 ////////////// part bta3 tab veiw
 
           TabBar(
             labelColor: Colors.black,
             controller: tabController,
-
+indicatorWeight: 1,
+            labelStyle: TextStyle(fontSize: 13),
             tabs:const [
               Tab(text: "Personal Info",),
               Tab(text: "My Wallet",),
@@ -123,8 +130,8 @@ Container(height: 40,width:100 ,
           Expanded(child: TabBarView(
             controller: tabController,
             children: const [
-              PersonalInfo(),
-              MyWallet(),
+               SingleChildScrollView(child: PersonalInfo()),
+              SingleChildScrollView(child: MyWallet()),
               TokenBnus()
             ],
           ))

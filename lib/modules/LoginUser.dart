@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gtrip/AppCubit.dart';
 import 'package:gtrip/AppStates.dart';
 import 'package:gtrip/CasheHelper.dart';
@@ -81,11 +82,14 @@ userid= state.userid!;
               children: [
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * .3,
+                  height: MediaQuery.of(context).size.height * .2,
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [Image.asset('assets/images/logo.png')]),
+                      children: [Image.asset('assets/images/logo.png',
+                        width: 50,
+                        height: 50,
+                      )]),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
@@ -136,13 +140,14 @@ userid= state.userid!;
                                 },
                                 decoration:  InputDecoration(
                                     hintText: "************",
-
-                                    suffix: IconButton(onPressed:(){
-                                      appCubit!.showAndHidePasswordFunc();
-                                      print(appCubit!.obsecured);
-                                    },
-                                        icon: Icon(appCubit!.passwordIcon)),
-                                    suffixIcon: const Icon(Icons.key))),
+                                    suffixIcon: Row( mainAxisAlignment: MainAxisAlignment.end,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [ IconButton(onPressed: (){
+                                        appCubit!.showAndHidePasswordFunc();
+                                      },
+                                          icon: Icon(appCubit!.passwordIcon)),
+                                        FaIcon(FontAwesomeIcons.key, size: 20,)
+                                      ],),)),
                             const SizedBox(height: 20,),
                             Row(children:  [
                               const Expanded(child: Text("Remember me")),
@@ -152,7 +157,7 @@ userid= state.userid!;
                               }),
 
                             ],),
-                            const SizedBox(height: 25,),
+                            const SizedBox(height: 20,),
                             Container( width: MediaQuery.of(context).size.width,
 
                               child: MaterialButton(child: const Text("Login",

@@ -317,13 +317,13 @@ emit(FacebookSignInSuccessState(value.user!.uid));
       });
     }
   }
-ClientModel Update = ClientModel();
+
 
   updateNameEmailPhone({String? username,
     String? email,
     String?phone
   }) async {
-    Update = ClientModel(
+    clientModel = ClientModel(
       fullname: clientModel!.fullname,
       userid: clientModel!.userid,
       image: clientModel!.image,
@@ -335,8 +335,8 @@ ClientModel Update = ClientModel();
     );
 
     FirebaseFirestore.instance.collection('Clients').doc(userid).update(
-        Update.tofirebase()).then((value) {
-      getClientDataFromFireStor(Update!.userid);
+        clientModel!.tofirebase()).then((value) {
+      getClientDataFromFireStor(clientModel!.userid);
 
     });
 

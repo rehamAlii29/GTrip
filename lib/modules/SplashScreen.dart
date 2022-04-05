@@ -28,14 +28,14 @@ class _SplashScreenState extends State<SplashScreen> {
             alignment: AlignmentDirectional.center,
             children: [
               Container(
-                  height: heightOfTheScreen * .4,
+                  height: heightOfTheScreen * .33,
                   width: widthOfTheScreen,
                   decoration: const BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage('assets/images/Vector1.png'),
                           fit: BoxFit.fill))),
               Positioned(
-
+top: 40,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -87,36 +87,40 @@ class _SplashScreenState extends State<SplashScreen> {
 // who are you part
 Padding(
   padding: const EdgeInsets.symmetric(horizontal: 50),
-  child:   DropdownButtonFormField(
+  child:   SizedBox(
+    height: 60,
+
+    child: DropdownButtonFormField(
 elevation: 20,
 
-    hint: const Text("Who are You?"),
-    decoration: InputDecoration(
+      hint: const Text("Who are You?"),
+      decoration: InputDecoration(
 
-      border:OutlineInputBorder(borderRadius: BorderRadius.circular(15.0),
-        borderSide: const BorderSide(
+        border:OutlineInputBorder(borderRadius: BorderRadius.circular(15.0),
+          borderSide: const BorderSide(
+              style: BorderStyle.solid,
+              color: Colors.black12
+          ) ,
+        ),
+        focusedBorder:OutlineInputBorder(borderRadius: BorderRadius.circular(15.0),
+          borderSide: const BorderSide(
             style: BorderStyle.solid,
-            color: Colors.black12
-        ) ,
+             color: Colors.black12
+          ) ,
       ),
-      focusedBorder:OutlineInputBorder(borderRadius: BorderRadius.circular(15.0),
-        borderSide: const BorderSide(
-          style: BorderStyle.solid,
-           color: Colors.black12
-        ) ,
-    ),
 
+      ),
+      items: const [ DropdownMenuItem(child: Text("Client"),
+      value:1,
     ),
-    items: const [ DropdownMenuItem(child: Text("Client"),
-    value:1,
-  ),
-    DropdownMenuItem(child: Text("Driver"),
-      value: 2,
-    ),], onChanged:  (selectedValue){
-    AppCubit.get(context).drobDownmenu(selectedValue as int);
-    print(  AppCubit.get(context).vlaue);
-  },
-    value: AppCubit.get(context).vlaue ,
+      DropdownMenuItem(child: Text("Driver"),
+        value: 2,
+      ),], onChanged:  (selectedValue){
+      AppCubit.get(context).drobDownmenu(selectedValue as int);
+      print(  AppCubit.get(context).vlaue);
+    },
+      value: AppCubit.get(context).vlaue ,
+    ),
   ),
 ),
 
@@ -128,7 +132,7 @@ elevation: 20,
               alignment: AlignmentDirectional.bottomEnd,
               children: [
                 Container(
-                    //  height: heightOfTheScreen * .5,
+                    //  height: heightOfTheScreen * .3,
                     width: widthOfTheScreen,
                     decoration: const BoxDecoration(
                         image: DecorationImage(
