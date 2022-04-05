@@ -43,145 +43,143 @@ class _UserRegisterState extends State<UserRegister> {
       builder: (context , state){
       appCubit=BlocProvider.of<AppCubit>(context);
       return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          elevation: 0,
-        ),
-        body: SingleChildScrollView(
-          child: Form(
-            key: formKey,
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
+
+        body: Container(
+          child: SingleChildScrollView(
+            child: Form(
+              key: formKey,
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Column(
 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                Row(children: [Text("FullName")],),
-                TextFormField(
-                  controller: fullname,
-                  validator: (value){
-                    if (value!.isEmpty) {
-                      return " Name cant be emty";
-                    }
-                  },
-                  keyboardType: TextInputType.name,
-                  decoration: InputDecoration(
-                    hintText: "Abdul Lazirh"
+                  children: [
+                  Row(children: [Text("FullName")],),
+                  TextFormField(
+                    controller: fullname,
+                    validator: (value){
+                      if (value!.isEmpty) {
+                        return " Name cant be emty";
+                      }
+                    },
+                    keyboardType: TextInputType.name,
+                    decoration: InputDecoration(
+                      hintText: "Abdul Lazirh"
 
+                    ),
                   ),
-                ),
-                SizedBox(height: 25,),
-                Row(children: [Text("E-mail address")],),
-                TextFormField(
-                  controller: email,
-                  validator: (value){
-                    if (value!.isEmpty) {
-                      return " email cant be emty";
-                    }
-                  },
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    suffixIcon: Icon(Icons.email_outlined),
-                      hintText: "myemail@gmail.com"
+                  SizedBox(height: 20,),
+                  Row(children: [Text("E-mail address")],),
+                  TextFormField(
+                    controller: email,
+                    validator: (value){
+                      if (value!.isEmpty) {
+                        return " email cant be emty";
+                      }
+                    },
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      suffixIcon: Icon(Icons.email_outlined),
+                        hintText: "myemail@gmail.com"
 
+                    ),
                   ),
-                ),
-                SizedBox(height: 25,),
-                Row(children: [Text('phone number')],),
-                TextFormField(
+                  SizedBox(height: 20,),
+                  Row(children: [Text('phone number')],),
+                  TextFormField(
 
-                  controller: phonenumber,
-                  validator: (value){
-                    if (value!.isEmpty) {
-                      return " phone cant be emty";
-                    }
-                  },
-                  keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(
-                    prefixIcon: CountryCodePicker(
+                    controller: phonenumber,
+                    validator: (value){
+                      if (value!.isEmpty) {
+                        return " phone cant be emty";
+                      }
+                    },
+                    keyboardType: TextInputType.phone,
+                    decoration: InputDecoration(
+                      prefixIcon: CountryCodePicker(
 initialSelection: 'eg',
-                      onChanged: (value){
+                        onChanged: (value){
   fullphoneNumber =  value.toString()+ phonenumber.text;
 
-                      },
+                        },
+                      ),
+                        suffixIcon:  Icon(Icons.phone),
+                        hintText: "0231458795"
+
                     ),
-                      suffixIcon:  Icon(Icons.phone),
-                      hintText: "0231458795"
-
                   ),
-                ),
-                SizedBox(height: 25,),
-                Row(children: [Text("Username")],),
-                TextFormField(
-                  controller: username,
-                  validator: (value){
-                    if (value!.isEmpty) {
-                      return " username cant be emty";
-                    }
-                  },
-                  keyboardType: TextInputType.name,
-                  decoration: InputDecoration(
-                      suffixIcon: Icon(Icons.account_circle),
-                      hintText: "Duran0124r"
-
-                  ),
-                ),
-                SizedBox(height: 25,),
-                Row(children: [Text("password")],),
-                TextFormField(
-                  controller: password,
-                  validator: (value){
-                    if (value!.isEmpty) {
-                      return " password cant be empty";
-                    }
-                  },
-                  obscureText: appCubit.obsecured,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-
-                      suffixIcon:
-                    Row( mainAxisAlignment: MainAxisAlignment.end,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [ IconButton(onPressed: (){
-                      appCubit.showAndHidePasswordFunc();
+                  SizedBox(height: 20,),
+                  Row(children: [Text("Username")],),
+                  TextFormField(
+                    controller: username,
+                    validator: (value){
+                      if (value!.isEmpty) {
+                        return " username cant be emty";
+                      }
                     },
-                        icon: Icon(appCubit.passwordIcon)),
-                      FaIcon(FontAwesomeIcons.key, size: 20,)
-                    ],),
-                      hintText: "*************",
-                  ),
-                ),
-                SizedBox(height: 25,),
-                Row(children: [Text("Confirm Password")],),
-                TextFormField(
-                  controller: confirmpassword,
-                  obscureText: appCubit.ConfirmPasswordobsecure,
-                  validator: (value){
-                    if ( confirmpassword.text != password.text ) {
-                      return "password must be same ";
-                    }
-                  },
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
+                    keyboardType: TextInputType.name,
+                    decoration: InputDecoration(
+                        suffixIcon: Icon(Icons.account_circle),
+                        hintText: "Duran0124r"
 
-                      suffixIcon:
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  Row(children: [Text("password")],),
+                  TextFormField(
+                    controller: password,
+                    validator: (value){
+                      if (value!.isEmpty) {
+                        return " password cant be empty";
+                      }
+                    },
+                    obscureText: appCubit.obsecured,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+
+                        suffixIcon:
                       Row( mainAxisAlignment: MainAxisAlignment.end,
                         mainAxisSize: MainAxisSize.min,
                         children: [ IconButton(onPressed: (){
-                          appCubit.confirmPasswordfunction();
-                        },
-                            icon: Icon(appCubit.confirmpasswordIcon)),
-                          FaIcon(FontAwesomeIcons.key, size: 20,)
-                        ],),
-                      hintText: "*************"
-
+                        appCubit.showAndHidePasswordFunc();
+                      },
+                          icon: Icon(appCubit.passwordIcon)),
+                        FaIcon(FontAwesomeIcons.key, size: 20,)
+                      ],),
+                        hintText: "*************",
+                    ),
                   ),
-                ),
-                SizedBox(height: 25,),
-                //button
-                MaterialButton(
-                  minWidth: MediaQuery.of(context).size.width,
-                  height: 50,
-                  onPressed: (){
+                  SizedBox(height: 20,),
+                  Row(children: [Text("Confirm Password")],),
+                  TextFormField(
+                    controller: confirmpassword,
+                    obscureText: appCubit.ConfirmPasswordobsecure,
+                    validator: (value){
+                      if ( confirmpassword.text != password.text ) {
+                        return "password must be same ";
+                      }
+                    },
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+
+                        suffixIcon:
+                        Row( mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [ IconButton(onPressed: (){
+                            appCubit.confirmPasswordfunction();
+                          },
+                              icon: Icon(appCubit.confirmpasswordIcon)),
+                            FaIcon(FontAwesomeIcons.key, size: 20,)
+                          ],),
+                        hintText: "*************"
+
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  //button
+                  MaterialButton(
+                    minWidth: MediaQuery.of(context).size.width,
+                    height: 40,
+                    onPressed: (){
 if(formKey.currentState!.validate()){
   appCubit.userSignup(fullname: fullname.text,
       email: email.text,
@@ -191,28 +189,29 @@ if(formKey.currentState!.validate()){
      );
   print(fullphoneNumber);
 }
-                }, child: Text("Sign Up", style: TextStyle(color: Colors.white, fontSize: 16,fontWeight: FontWeight.bold),),
-                    color: Colors.cyan[800],
-                    shape: RoundedRectangleBorder(
+                  }, child: Text("Sign Up", style: TextStyle(color: Colors.white, fontSize: 16,fontWeight: FontWeight.bold),),
+                      color: Colors.cyan[800],
+                      shape: RoundedRectangleBorder(
 
-                    borderRadius: BorderRadius.circular(20)
+                      borderRadius: BorderRadius.circular(20)
       ),
-                ),
+                  ),
 
 Row(
   mainAxisAlignment: MainAxisAlignment.center,
    children: [
   Text("Already have an account  " ,style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 15),),
      TextButton(onPressed: (){Navigator.pushReplacement(context,
-         MaterialPageRoute(builder: (context)=> LoginUser()));}, child:
-     Text("LogIn" ,style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 20),))
+           MaterialPageRoute(builder: (context)=> LoginUser()));}, child:
+     Text("LogIn" ,style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 17),))
 ],)
 
 
 
 
 
-              ],),
+                ],),
+              ),
             ),
           ),
         ),

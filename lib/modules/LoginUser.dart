@@ -91,159 +91,161 @@ userid= state.userid!;
                         height: 50,
                       )]),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(children: [ const Text("proceed with your"),
-                    const SizedBox(height: 5),
-                    const Text(
-                      "Login",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Form(
-                        key: formKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text('username / email'),
-                            TextFormField(
-                                controller: emailController,
-                                keyboardType: TextInputType.emailAddress,
-                                validator: (value){
-                                  if (value!.isEmpty)
-                                  {
-                                    return "E-mail or UserName Cant be Empty";
-                                  }
-                                  else
-                                    return null;
+                SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(25.0),
+                    child: Column(children: [ const Text("proceed with your"),
+                      const SizedBox(height: 5),
+                      const Text(
+                        "Login",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Form(
+                          key: formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('username / email'),
+                              TextFormField(
+                                  controller: emailController,
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: (value){
+                                    if (value!.isEmpty)
+                                    {
+                                      return "E-mail or UserName Cant be Empty";
+                                    }
+                                    else
+                                      return null;
+                                  },
+                                  decoration: const InputDecoration(
+                                      hintText: "Duran0124r", suffixIcon: Icon(FlutterRemix.account_box_line,
+
+                                  ))),
+                              const SizedBox(height: 20,),
+                              const Text('password'),
+                              TextFormField(
+                                  controller: passwordController,
+
+                                  obscureText: appCubit!.obsecured,
+                                  keyboardType: TextInputType.visiblePassword,
+                                  validator: (value){
+                                    if (value!.isEmpty)
+                                    {
+                                      return "Password Cant be Empty";
+                                    }
+                                    else
+                                      return null;
+                                  },
+                                  decoration:  InputDecoration(
+                                      hintText: "************",
+                                      suffixIcon: Row( mainAxisAlignment: MainAxisAlignment.end,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [ IconButton(onPressed: (){
+                                          appCubit!.showAndHidePasswordFunc();
+                                        },
+                                            icon: Icon(appCubit!.passwordIcon)),
+                                          FaIcon(FontAwesomeIcons.key, size: 20,)
+                                        ],),)),
+                              const SizedBox(height: 20,),
+                              Row(children:  [
+                                const Expanded(child: Text("Remember me")),
+                                CupertinoSwitch(value: appCubit!.rememberMeChecked, onChanged: (value){
+                              //    value=appCubit!.rememberMeChecked;
+                                  appCubit!.rememberMeFunction();
+                                }),
+
+                              ],),
+                              const SizedBox(height: 20,),
+                              Container( width: MediaQuery.of(context).size.width,
+
+                                child: MaterialButton(child: const Text("Login",
+                                  style: TextStyle(color: Colors.white),
+                                ), onPressed: (){
+                                 if (formKey.currentState!.validate()){
+                                   appCubit!.userLoginFunction(
+                                       email: emailController.text, password: passwordController.text);}
+
+
                                 },
-                                decoration: const InputDecoration(
-                                    hintText: "Duran0124r", suffixIcon: Icon(FlutterRemix.account_box_line,
+                                  color: Colors.cyan[700]
+                                  ,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)
+                                  ),
 
-                                ))),
-                            const SizedBox(height: 20,),
-                            const Text('password'),
-                            TextFormField(
-                                controller: passwordController,
+                                ),
+                              ),
+                              const SizedBox(height: 5,),
 
-                                obscureText: appCubit!.obsecured,
-                                keyboardType: TextInputType.visiblePassword,
-                                validator: (value){
-                                  if (value!.isEmpty)
-                                  {
-                                    return "Password Cant be Empty";
-                                  }
-                                  else
-                                    return null;
-                                },
-                                decoration:  InputDecoration(
-                                    hintText: "************",
-                                    suffixIcon: Row( mainAxisAlignment: MainAxisAlignment.end,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [ IconButton(onPressed: (){
-                                        appCubit!.showAndHidePasswordFunc();
-                                      },
-                                          icon: Icon(appCubit!.passwordIcon)),
-                                        FaIcon(FontAwesomeIcons.key, size: 20,)
-                                      ],),)),
-                            const SizedBox(height: 20,),
-                            Row(children:  [
-                              const Expanded(child: Text("Remember me")),
-                              CupertinoSwitch(value: appCubit!.rememberMeChecked, onChanged: (value){
-                            //    value=appCubit!.rememberMeChecked;
-                                appCubit!.rememberMeFunction();
-                              }),
 
-                            ],),
-                            const SizedBox(height: 20,),
-                            Container( width: MediaQuery.of(context).size.width,
+                            ],
+                          )),
+                      Row( mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
 
-                              child: MaterialButton(child: const Text("Login",
-                                style: TextStyle(color: Colors.white),
-                              ), onPressed: (){
-                               if (formKey.currentState!.validate()){
-                                 appCubit!.userLoginFunction(
-                                     email: emailController.text, password: passwordController.text);}
+                          TextButton(onPressed: (){}, child: const Text("Forget password?",
+                            style: TextStyle(color: Colors.black,
+                                fontWeight: FontWeight.w300
+                            ),
+                          )),
+                          const SizedBox(width: 5,),
+                          TextButton(onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> const UserRegister()));
+                          }, child: const Text("Sign Up",
+                              style: TextStyle(color: Colors.black))),
+                        ],),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const Text("Login with"),
+                      SizedBox(height: 20,),
+                      Row(
+                        mainAxisAlignment:  MainAxisAlignment.center,
+
+                        children: [
+
+                          GestureDetector(
+                            child:  const Image(image: AssetImage('assets/images/google.png'),
+                              width: 30,height: 30,
+                            ) ,
+                            onTap: (){  appCubit!.googleSignInFunction(context);},
+                          ),
+                          SizedBox(width: 10,),
+                          GestureDetector(
+                            child:  const Image(image: AssetImage('assets/images/github.png'),
+                              width: 30,height: 30,
+                            ) ,
+                            onTap: (){
+
+                              appCubit!.signInWithGitHub();
 
 
                               },
-                                color: Colors.cyan[700]
-                                ,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)
-                                ),
-
-                              ),
-                            ),
-                            const SizedBox(height: 5,),
-
-
-                          ],
-                        )),
-                    Row( mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-
-                        TextButton(onPressed: (){}, child: const Text("Forget password?",
-                          style: TextStyle(color: Colors.black,
-                              fontWeight: FontWeight.w300
                           ),
-                        )),
-                        const SizedBox(width: 5,),
-                        TextButton(onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> const UserRegister()));
-                        }, child: const Text("Sign Up",
-                            style: TextStyle(color: Colors.black))),
-                      ],),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const Text("Login with"),
-                    SizedBox(height: 20,),
-                    Row(
-                      mainAxisAlignment:  MainAxisAlignment.center,
-
-                      children: [
-
-                        GestureDetector(
-                          child:  const Image(image: AssetImage('assets/images/google.png'),
-                            width: 50,height: 50,
-                          ) ,
-                          onTap: (){  appCubit!.googleSignInFunction(context);},
-                        ),
-                        SizedBox(width: 10,),
-                        GestureDetector(
-                          child:  const Image(image: AssetImage('assets/images/github.png'),
-                            width: 50,height: 50,
-                          ) ,
-                          onTap: (){
-
-                            appCubit!.signInWithGitHub();
-
-
+                          SizedBox(width: 10,),
+                          GestureDetector(
+                            child:  const Image(image: AssetImage('assets/images/twitter.png'),
+                              width: 30,height: 30,
+                            ) ,
+                            onTap: (){
+                              appCubit!.signInWithTwitter();
                             },
-                        ),
-                        SizedBox(width: 10,),
-                        GestureDetector(
-                          child:  const Image(image: AssetImage('assets/images/twitter.png'),
-                            width: 50,height: 50,
-                          ) ,
-                          onTap: (){
-                            appCubit!.signInWithTwitter();
-                          },
-                        ),
-                        SizedBox(width: 10,),
-                        GestureDetector(
-                          child:  const Image(image: AssetImage('assets/images/facebook.png'),
-                            width: 50,height: 50,
-                          ) ,
-                          onTap: (){  appCubit!.signInWithFacebook();},
-                        ),
+                          ),
+                          SizedBox(width: 10,),
+                          GestureDetector(
+                            child:  const Image(image: AssetImage('assets/images/facebook.png'),
+                              width: 30,height: 30,
+                            ) ,
+                            onTap: (){  appCubit!.signInWithFacebook();},
+                          ),
 
 
 
-                      ],)],),
+                        ],)],),
+                  ),
                 ),
 
               ],
