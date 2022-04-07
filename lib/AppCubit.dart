@@ -18,6 +18,7 @@ import 'package:gtrip/AppStates.dart';
 import 'package:gtrip/CasheHelper.dart';
 import 'package:gtrip/Constant/const.dart';
 import 'package:gtrip/models/ClientModel.dart';
+import 'package:gtrip/models/TripModel.dart';
 import 'package:gtrip/modules/AppHome.dart';
 import 'package:gtrip/modules/Help.dart';
 import 'package:gtrip/modules/History.dart';
@@ -342,7 +343,54 @@ emit(FacebookSignInSuccessState(value.user!.uid));
 
   }
 
+// History
+TripModel? tripModel;
+addtrtip({
+    Timestamp? fromdate, Timestamp?Todate,
+}){
+    tripModel = TripModel(tripId: '1', userid: userid, driverid: '1',
+      fromDate: fromdate, toDate: Todate,
+      fromPlace: "cairo" , toPlace: "Mansoura"
+      
+    );
+    FirebaseFirestore.instance.collection('Trips').add(tripModel!.toFirebase());
+    emit(AddTripSuccess());
+}
+List<TripModel> finishedTripes= [];
+List<TripModel> onGoiningTrips=[];
+List<TripModel> futerTrips = [];
+Timestamp? firstdate;
+  Timestamp? lastdate;
+getFinished()async{
+  FirebaseFirestore.instance.collection('Trips').where('userid', isEqualTo: userid).get().then((value) {
+   for(var element in value.docs)
+     {
 
+   firstdate=  element['fromDate'] ;
+   lastdate= element['toDate'];
+   
+  if(firstdate!.toDate().isAfter(DateTime.now())){
+    print('afteeeeer');
+print(element.data());
+   futerTrips.add(TripModel.fromFirebase(element.data() ));
+  }
+  if((DateTime.now().isAfter(lastdate!.toDate()))){
+    print('past');
+    finishedTripes.add(TripModel.fromFirebase(element.data() as Map<String , dynamic>));
+  }
+  if(
+  (DateTime.now().isAfter(firstdate!.toDate())) 
+      && (DateTime.now().isBefore(lastdate!.toDate()))
 
+  ){
+
+    print('ongoing');
+    onGoiningTrips.add(TripModel.fromFirebase(element.data()));
+  }
+     }
+
+  });
+  print(futerTrips);
+}
 
 }

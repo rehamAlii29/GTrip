@@ -1,0 +1,36 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+
+class TripModel{
+  String?tripId;
+  String?userid;
+  String?driverid;
+  Timestamp?fromDate;
+  Timestamp?toDate;
+  String?fromPlace;
+  String?toPlace;
+  TripModel({this.tripId, this.userid,this.driverid,this.fromDate,this.toDate,this.fromPlace,this.toPlace});
+  TripModel.fromFirebase( Map<String , dynamic> fromfirebase){
+    tripId= fromfirebase['tripId'];
+    userid= fromfirebase['userid'];
+    driverid= fromfirebase['driverid'];
+    fromDate= fromfirebase['fromDate'];
+    toDate= fromfirebase['toDate'];
+    fromPlace= fromfirebase['fromPlace'];
+    toPlace= fromfirebase['toPlace'];}
+    Map<String, dynamic> toFirebase(){
+      return{
+        'tripId' : tripId,
+        'userid' : userid,
+        'driverid':driverid,
+      'fromDate':fromDate,
+        'toDate':toDate,
+        'fromPlace':fromPlace,
+        'toPlace':toPlace
+
+
+      };
+    }
+
+  }
+
