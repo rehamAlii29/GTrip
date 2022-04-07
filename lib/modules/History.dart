@@ -23,66 +23,86 @@ class _HistoryState extends State<History> {
   @override
   Widget build(BuildContext context){
 
-    return Scaffold(
-backgroundColor: HexColor('2B8C94'),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(children: [
-                Expanded(child: Container(child: TextFormField(),))
-              ],),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: SingleChildScrollView(
-                child: Card(
-shape: RoundedRectangleBorder(
-  borderRadius: BorderRadius.only(topLeft: Radius.circular(30),
-    bottomRight: Radius.circular(30),
-  )
-),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SingleChildScrollView(
-                      child: Column(children: [
-                      ListView.builder(itemBuilder: (context, index) {
-                        return buildFutureTrip(context);
+    return SingleChildScrollView(
+      child: Container(
 
-                      },
-                      itemCount: 5,
-                      shrinkWrap: true,
-     ),
-                      ListView.builder(itemBuilder: (context, index) {
-                        return buildFutureTrip(context);
+          width: MediaQuery.of(context).size.width,
+          height:MediaQuery.of(context).size.height,
+          color:  HexColor('2B8C94'),
+          child: Column(children: [
+            AppBar(backgroundColor:HexColor('2B8C94') ,
+            elevation: 0,),
+          // search ,
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child:
+// box el search
+            Row(children: [
+              Expanded(child: Container(
+                color: Colors.white,
 
-                      },
-                        itemCount: 2,
-                        shrinkWrap: true,
+
+                 child: TextFormField(
+                   decoration: InputDecoration(
+
+                     border: InputBorder.none,
+                      prefixIcon: Icon(Icons.search, color: Colors.black,),
+                     hintText: "search by date, name of driver"
+                   ),
+
+
+                 ),))
+            ],),
+          ),
+            Text("explor the list of past and secheduled goods transportation", style: TextStyle(color: Colors.white),),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 20, left: 20),
+                child: ClipRRect(
+
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30)
+
+                  ),
+                  child: SingleChildScrollView(
+
+                    child: Container(
+                      color: Colors.white,
+                      child: SingleChildScrollView(
+                        child: Column(children: [
+                          ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: 10,
+                              itemBuilder: (context , index){
+                            return buildFutureTrip(context);
+                          }),
+                          Container( color: HexColor('2B8C94'),
+                            child:ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: 10,
+                              itemBuilder: (context , index){
+                                return buildFutureTrip(context);
+                              }),
+                              )
+                        ],),
                       ),
-                      ListView.builder(itemBuilder: (context, index) {
-                        return buildFutureTrip(context);
-
-                      },
-                        itemCount: 2,
-                        shrinkWrap: true,
-                      ),
-                ],),
                     ),
-                  ),),
+                  ),
+                ),
               ),
             ),
-          ],
-        ),
-      )
+        ],),),
     );
 
   }
 }
 Widget buildFutureTrip(BuildContext context){
-  return Expanded(
-    child: Column(
+  return  Column(
 
       children: [
         SizedBox(height: 10,),
@@ -127,8 +147,8 @@ mainAxisSize: MainAxisSize.min,
        ],)
       ],),
 SizedBox(height: 10,)
-    ],),
-  );
+    ],);
+
 
 }
 /*

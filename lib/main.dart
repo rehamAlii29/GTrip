@@ -15,18 +15,18 @@ import 'Constant/const.dart';
 
 void main() async{
 
- WidgetsFlutterBinding.ensureInitialized();
- await Firebase.initializeApp();
-await CasheHelper.init();
-userid = CasheHelper.getData(key: 'userid');
-Widget startWidget;
-if(userid != null){
-startWidget = HomeScreen();
-print(userid);
-}
-else{
-  startWidget = SplashScreen();
-}
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  await CasheHelper.init();
+  userid = CasheHelper.getData(key: 'userid');
+  Widget startWidget;
+  if(userid != null){
+    startWidget = HomeScreen();
+    print(userid);
+  }
+  else{
+    startWidget = SplashScreen();
+  }
   runApp( GTrip(startWidget));
 }
 
@@ -61,9 +61,3 @@ class GTrip extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
