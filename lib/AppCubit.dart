@@ -89,6 +89,12 @@ class AppCubit extends Cubit<AppStates> {
 
   toggelbetweenNavbarScreens(int selectedIndex) {
     currentIndex = selectedIndex;
+    if(selectedIndex == 1){
+      finishedTripes=[];
+      onGoiningTrips = [];
+      futerTrips=[];
+      getFinished();
+    }
     emit(BottomNavBarChangingSuccess());
   }
 
@@ -345,23 +351,15 @@ emit(FacebookSignInSuccessState(value.user!.uid));
 
 // History
 TripModel? tripModel;
-addtrtip({
-    Timestamp? fromdate, Timestamp?Todate,
-}){
-    tripModel = TripModel(tripId: '1', userid: userid, driverid: '1',
-      fromDate: fromdate, toDate: Todate,
-      fromPlace: "cairo" , toPlace: "Mansoura"
-      
-    );
-    FirebaseFirestore.instance.collection('Trips').add(tripModel!.toFirebase());
-    emit(AddTripSuccess());
-}
+
 List<TripModel> finishedTripes= [];
 List<TripModel> onGoiningTrips=[];
 List<TripModel> futerTrips = [];
 Timestamp? firstdate;
   Timestamp? lastdate;
 getFinished()async{
+
+  emit(GetTriploading());
   FirebaseFirestore.instance.collection('Trips').where('userid', isEqualTo: userid).get().then((value) {
    for(var element in value.docs)
      {
@@ -376,7 +374,7 @@ print(element.data());
   }
   if((DateTime.now().isAfter(lastdate!.toDate()))){
     print('past');
-    finishedTripes.add(TripModel.fromFirebase(element.data() as Map<String , dynamic>));
+    finishedTripes.add(TripModel.fromFirebase(element.data()));
   }
   if(
   (DateTime.now().isAfter(firstdate!.toDate())) 
@@ -388,9 +386,18 @@ print(element.data());
     onGoiningTrips.add(TripModel.fromFirebase(element.data()));
   }
      }
+emit(GetTripSuccess());
+  });
+
+}
+List <TripModel>Result = [];
+//
+searchdateResult( String? keyofsearch)async{
+  FirebaseFirestore.instance.collection('Trips').where('fromDate', isEqualTo: keyofsearch).get().
+  then((value) {
 
   });
-  print(futerTrips);
+  
 }
 
 }

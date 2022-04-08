@@ -2,7 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gtrip/AppCubit.dart';
+import 'package:gtrip/AppStates.dart';
+import 'package:gtrip/models/TripModel.dart';
+import 'package:intl/intl.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 
@@ -23,97 +27,146 @@ class _HistoryState extends State<History> {
   @override
   Widget build(BuildContext context){
 
-    return SingleChildScrollView(
-      child: Container(
+    return BlocConsumer<AppCubit, AppStates>(
+   listener: (context, state){
 
-          width: MediaQuery.of(context).size.width,
-          height:MediaQuery.of(context).size.height,
-          color:  HexColor('2B8C94'),
-          child: Column(children: [
-            AppBar(backgroundColor:HexColor('2B8C94') ,
-            elevation: 0,),
-          // search ,
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child:
+   },
+      builder: (context, state){
+     List finished= AppCubit.get(context).finishedTripes;
+     List ongoing = AppCubit.get(context).onGoiningTrips;
+     List future = AppCubit.get(context).futerTrips;
+     return  SingleChildScrollView(
+       child: Container(
+
+         width: MediaQuery.of(context).size.width,
+         height:MediaQuery.of(context).size.height,
+         color:  HexColor('2B8C94'),
+         child: Column(children: [
+           AppBar(backgroundColor:HexColor('2B8C94') ,
+             elevation: 0,),
+           // search ,
+           Padding(
+             padding: const EdgeInsets.all(20),
+             child:
 // box el search
-            Row(children: [
-              Expanded(child: Container(
-                color: Colors.white,
+             Row(children: [
+               Expanded(child: Container(
+                 color: Colors.white,
 
 
                  child: TextFormField(
                    decoration: InputDecoration(
 
-                     border: InputBorder.none,
-                      prefixIcon: Icon(Icons.search, color: Colors.black,),
-                     hintText: "search by date, name of driver"
+                       border: InputBorder.none,
+                       prefixIcon: Icon(Icons.search, color: Colors.black,),
+                       hintText: "search by date, name of driver"
                    ),
 
 
                  ),))
-            ],),
-          ),
-            Text("explor the list of past and secheduled goods transportation", style: TextStyle(color: Colors.white),),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20, left: 20),
-                child: ClipRRect(
-
+             ],),
+           ),
+           Text("explor the list of past and secheduled goods transportation", style: TextStyle(color: Colors.white),),
+           Expanded(
+             child: Padding(
+               padding: const EdgeInsets.only(top: 20, left: 10, ),
+               child: Card(
+  clipBehavior: Clip.antiAliasWithSaveLayer,
+                shape:RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    bottomRight: Radius.circular(30)
+                    topLeft: Radius.circular(40),
+                    bottomRight: Radius.circular(40),
 
-                  ),
-                  child: SingleChildScrollView(
-
-                    child: Container(
-                      color: Colors.white,
-                      child: SingleChildScrollView(
-                        child: Column(children: [
-                          ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: 10,
-                              itemBuilder: (context , index){
-                            return buildFutureTrip(context);
-                          }),
-                          Container( color: HexColor('2B8C94'),
-                            child:ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              itemCount: 10,
-                              itemBuilder: (context , index){
-                                return buildFutureTrip(context);
-                              }),
-                              )
-                        ],),
-                      ),
-                    ),
-                  ),
+                  )
                 ),
-              ),
-            ),
-        ],),),
+                 child: SingleChildScrollView(
+
+                   child: Container(
+                     color: Colors.white,
+                     child: SingleChildScrollView(
+                       child: Padding(
+                         padding: const EdgeInsets.only(left: 10, top: 10 ),
+                         child: Column(
+                           crossAxisAlignment: CrossAxisAlignment.start,
+                           children: [
+                           Text("Newly Scheduled", style: TextStyle(fontWeight: FontWeight.bold),),
+                           ListView.builder(
+                               physics: NeverScrollableScrollPhysics(),
+                               scrollDirection: Axis.vertical,
+                               shrinkWrap: true,
+                               itemCount: future.length,
+                               itemBuilder: (context , index){
+                                 return buildFutureTrip(context , future[index], );
+                               }),
+
+                           Padding(
+                             padding: const EdgeInsets.all(8.0),
+                             child: Card(
+                               child:Padding(
+                                 padding: const EdgeInsets.only(left: 10, top: 10 ),
+                                 child: Column(
+                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                   children: [
+                                     Text("Ongoing Transport", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
+                                     Divider(
+                                       thickness: 2,
+                                       color: Colors.white,
+                                     ),
+                                     ListView.builder(
+                                         physics: NeverScrollableScrollPhysics(),
+                                         scrollDirection: Axis.vertical,
+                                         shrinkWrap: true,
+                                         itemCount: ongoing.length,
+                                         itemBuilder: (context , index){
+                                           return buildFutureTrip(context, ongoing[index],);
+                                         }),
+                                   ],
+                                 ),
+                               ),
+                      elevation: 50,
+                               color: HexColor('2B8C94'),
+                               clipBehavior: Clip.antiAliasWithSaveLayer,
+
+                               shape: RoundedRectangleBorder(
+                                   borderRadius: BorderRadius.only(
+                                     topLeft: Radius.circular(30),
+                                     bottomRight: Radius.circular(30),
+
+                                   )
+                               ),
+                             ),
+                           ),
+                             SizedBox(height: 15,),
+                             Text("Dlivered & Closed", style: TextStyle(fontWeight: FontWeight.bold),),
+                           ListView.builder(
+                               physics: NeverScrollableScrollPhysics(),
+                               scrollDirection: Axis.vertical,
+                               shrinkWrap: true,
+                               itemCount: finished.length,
+                               itemBuilder: (context , index){
+                                 return buildFutureTrip(context , finished[index], );
+                               })
+                         ],),
+                       ),
+                     ),
+                   ),
+                 ),
+               ),
+             ),
+           ),
+         ],),),
+     );
+      },
     );
 
   }
 }
-Widget buildFutureTrip(BuildContext context){
-  return  Padding(
-    padding: const EdgeInsets.only(left: 20),
-    child: Column(
+Widget buildFutureTrip(BuildContext context, TripModel tripModel , ){
+  return  Expanded(
+    child: Row(
 
         children: [
-          SizedBox(height: 10,),
-Row(
 
-      children: [
-      Text('Newly Scheduled', style: TextStyle(fontWeight: FontWeight.bold`),)
-],),
-        SizedBox(height: 10,),
         Row(children: [
           // bta3 elsora
           Column(
@@ -122,12 +175,12 @@ Row(
             CircleAvatar(
               radius: 30,
               backgroundImage:
-            NetworkImage('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80')
+            NetworkImage('${tripModel.imageOfDriver}')
             ),
             SizedBox(height: 5,),
-            Text('Hamed abdul')
+            Text('${tripModel.DriverName}')
           ],),
-          SizedBox(width: 10,),
+
           // bta3 el description
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,20 +188,28 @@ Row(
             Container(
               width: MediaQuery.of(context).size.width*.4,
 
-               child: Text('transportation of pasta from my house in ciaro, street n° 12 to the village at palace' , style: TextStyle(fontSize: 12),),),
-
-            Text('\$3,5000', style: TextStyle(fontWeight: FontWeight.bold),)
+               child: Text('${tripModel.tripDescription == null ? "No Description found " : tripModel.tripDescription}'
+                 , style: TextStyle(fontSize: 10,
+                 ), maxLines: 2,
+                 overflow: TextOverflow.ellipsis,
+               ),),
+SizedBox(height: 5,),
+            Text('\$${tripModel.tripCost}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10), )
           ],),
-          SizedBox(width: 20,),
+
          Column(
            crossAxisAlignment: CrossAxisAlignment.end,
-mainAxisAlignment: MainAxisAlignment.end,
+
+mainAxisAlignment: MainAxisAlignment.spaceBetween,
 mainAxisSize: MainAxisSize.min,
 
            children: [
-           Text('19/8/2022'),
-           Text('23Km'),
-           Text('From 14/4/2022 To 20/4/2022', style: TextStyle(fontSize: 10),)
+           Text('${DateFormat.yMMMd().add_jm().format(DateTime.now())}', style: TextStyle(fontSize: 8)),
+           Text('${tripModel.distance}', style :Theme.of(context).textTheme.caption!.copyWith(fontSize: 15)),
+           Text('From ${DateFormat.yMMMd().add_jm().format(tripModel.fromDate!.toDate())} '
+               'To ${DateFormat.yMMMd().add_jm().format(tripModel.toDate!.toDate())}',
+
+             style: TextStyle(fontSize: 8),)
          ],)
         ],),
 SizedBox(height: 10,)
@@ -157,42 +218,3 @@ SizedBox(height: 10,)
 
 
 }
-/*
-: Column(
-        children: [
-
-          DateTimePicker(
-
-            dateLabelText: 'from',
-            controller: from,
-            initialDate: DateTime.now(),
-            lastDate: DateTime(2023),
-            firstDate: DateTime.now(),
-            type: DateTimePickerType.dateTimeSeparate ,
-
-          ),
-          SizedBox(height: 20,),
-          DateTimePicker(
-onChanged: (value){
-
-},
-
-            dateLabelText: 'from',
-            controller: to,
-            initialDate: DateTime.now(),
-            lastDate: DateTime(2023),
-            firstDate: DateTime.now(),
-            type: DateTimePickerType.dateTimeSeparate ,
-
-          ),
-          SizedBox(height: 20,),
-          RaisedButton(onPressed: (){
-DateTime fromtodatetime =  DateTime.parse(from.text.toString());
-DateTime todatetodatetime= DateTime.parse(to.text.toString());
-        //  AppCubit.get(context).addtrtip(fromdate:Timestamp.fromDate(fromtodatetime), Todate: Timestamp.fromDate(todatetodatetime));
-
-AppCubit.get(context).getFinished();
-            }, child: Text('send'),)
-        ],
-      ),
- */

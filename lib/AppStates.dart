@@ -80,4 +80,7 @@ class SignOutSuccess extends AppStates{}
 class UpdateNamaemailphoneSuccess extends AppStates{}
 /// trip
 class AddTripSuccess extends AppStates{}
-class GetTrip extends AppStates{}
+class GetTriploading extends AppStates{}
+class GetTripSuccess extends AppStates{}
+class SearchSuccess extends AppStates{}
+class SearchLoading extends AppStates{}
