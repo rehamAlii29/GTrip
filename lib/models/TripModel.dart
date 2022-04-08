@@ -9,7 +9,15 @@ class TripModel{
   Timestamp?toDate;
   String?fromPlace;
   String?toPlace;
-  TripModel({this.tripId, this.userid,this.driverid,this.fromDate,this.toDate,this.fromPlace,this.toPlace});
+  String?imageOfDriver;
+  String?DriverName;
+  String? distance;
+  String? tripDescription;
+  TripModel({this.tripId, this.userid,this.driverid,this.fromDate,this.toDate,this.fromPlace,this.toPlace, this.imageOfDriver, this.DriverName,
+  this.distance,
+    this.tripDescription
+
+  });
   TripModel.fromFirebase( Map<String , dynamic> fromfirebase){
     tripId= fromfirebase['tripId'];
     userid= fromfirebase['userid'];
@@ -17,7 +25,13 @@ class TripModel{
     fromDate= fromfirebase['fromDate'];
     toDate= fromfirebase['toDate'];
     fromPlace= fromfirebase['fromPlace'];
-    toPlace= fromfirebase['toPlace'];}
+    toPlace= fromfirebase['toPlace'];
+    imageOfDriver = fromfirebase['imageOfDriver'];
+    DriverName = fromfirebase['DriverName'];
+    distance= fromfirebase['distance'];
+    tripDescription = fromfirebase['tripDescription'];
+
+  }
     Map<String, dynamic> toFirebase(){
       return{
         'tripId' : tripId,
