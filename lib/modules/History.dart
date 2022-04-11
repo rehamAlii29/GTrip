@@ -3,6 +3,7 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:gtrip/AppCubit.dart';
 import 'package:gtrip/AppStates.dart';
 import 'package:gtrip/models/TripModel.dart';
@@ -69,7 +70,7 @@ class _HistoryState extends State<History> {
            Text("explor the list of past and secheduled goods transportation", style: TextStyle(color: Colors.white),),
            Expanded(
              child: Padding(
-               padding: const EdgeInsets.only(top: 20, left: 10, ),
+               padding:  EdgeInsets.only(top: 20, left: 10, ),
                child: Card(
   clipBehavior: Clip.antiAliasWithSaveLayer,
                 shape:RoundedRectangleBorder(
@@ -82,48 +83,65 @@ class _HistoryState extends State<History> {
                  child: SingleChildScrollView(
 
                    child: Container(
+                     width: MediaQuery.of(context).size.width,
                      color: Colors.white,
                      child: SingleChildScrollView(
-                       child: Padding(
-                         padding: const EdgeInsets.only(left: 10, top: 10 ),
-                         child: Column(
-                           crossAxisAlignment: CrossAxisAlignment.start,
-                           children: [
-                           Text("Newly Scheduled", style: TextStyle(fontWeight: FontWeight.bold),),
-                           ListView.builder(
-                               physics: NeverScrollableScrollPhysics(),
-                               scrollDirection: Axis.vertical,
-                               shrinkWrap: true,
-                               itemCount: future.length,
-                               itemBuilder: (context , index){
-                                 return buildFutureTrip(context , future[index], );
-                               }),
+                       child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: [
+                         Padding(
+                           padding:  EdgeInsets.only(left: 20, top: 20),
+                           child: Text("Newly Scheduled", style: TextStyle(fontWeight: FontWeight.bold), ),
+                         ),
 
-                           Padding(
-                             padding: const EdgeInsets.all(8.0),
+                        future.isEmpty? Align( alignment: Alignment.center,
+                            child: Text("There is no Sechduled Trips" , style: TextStyle(fontWeight: FontWeight.w900),)) : ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: future.length,
+                            itemBuilder: (context , index){
+                              return buildFutureTrip(context , future[index], Colors.black );
+                            }),
+
+                         Container(
+                          // width: MediaQuery.of(context).size.width,
+                           child: Padding(
+                             padding: const EdgeInsets.all(2),
                              child: Card(
-                               child:Padding(
-                                 padding: const EdgeInsets.only(left: 10, top: 10 ),
-                                 child: Column(
-                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                   children: [
-                                     Text("Ongoing Transport", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
-                                     Divider(
-                                       thickness: 2,
-                                       color: Colors.white,
+
+                               child:Column(
+                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                 children: [
+                                   Padding(
+                                     padding: const EdgeInsets.only(left: 10, top: 10),
+                                     child: Row(
+                                       crossAxisAlignment: CrossAxisAlignment.center,
+                                       children: [
+                                         Text("Ongoing Transport",
+                                           style: GoogleFonts.openSans(fontWeight: FontWeight.bold, color: Colors.white, )
+                                           ),
+                                       ],
                                      ),
-                                     ListView.builder(
-                                         physics: NeverScrollableScrollPhysics(),
-                                         scrollDirection: Axis.vertical,
-                                         shrinkWrap: true,
-                                         itemCount: ongoing.length,
-                                         itemBuilder: (context , index){
-                                           return buildFutureTrip(context, ongoing[index],);
-                                         }),
-                                   ],
-                                 ),
+                                   ),
+                                   SizedBox(height: 10,),
+                                   Divider(
+                                     thickness: 2,
+                                     color: Colors.white,
+                                   ),
+                                   ListView.builder(
+                                       physics: NeverScrollableScrollPhysics(),
+                                       scrollDirection: Axis.vertical,
+                                       shrinkWrap: true,
+                                       itemCount: ongoing.length,
+                                       itemBuilder: (context , index){
+                                         return buildFutureTrip(context, ongoing[index], Colors.white
+                                         );
+                                       }),
+                                 ],
                                ),
                       elevation: 50,
+
                                color: HexColor('2B8C94'),
                                clipBehavior: Clip.antiAliasWithSaveLayer,
 
@@ -136,18 +154,21 @@ class _HistoryState extends State<History> {
                                ),
                              ),
                            ),
-                             SizedBox(height: 15,),
-                             Text("Dlivered & Closed", style: TextStyle(fontWeight: FontWeight.bold),),
-                           ListView.builder(
-                               physics: NeverScrollableScrollPhysics(),
-                               scrollDirection: Axis.vertical,
-                               shrinkWrap: true,
-                               itemCount: finished.length,
-                               itemBuilder: (context , index){
-                                 return buildFutureTrip(context , finished[index], );
-                               })
-                         ],),
-                       ),
+                         ),
+                           SizedBox(height: 15,),
+                           Padding(
+                             padding: const EdgeInsets.only(left: 10),
+                             child: Text("Dlivered & Closed", style: TextStyle(fontWeight: FontWeight.bold),),
+                           ),
+                         ListView.builder(
+                             physics: NeverScrollableScrollPhysics(),
+                             scrollDirection: Axis.vertical,
+                             shrinkWrap: true,
+                             itemCount: finished.length,
+                             itemBuilder: (context , index){
+                               return buildFutureTrip(context , finished[index],  Colors.black);
+                             })
+                       ],),
                      ),
                    ),
                  ),
@@ -161,57 +182,72 @@ class _HistoryState extends State<History> {
 
   }
 }
-Widget buildFutureTrip(BuildContext context, TripModel tripModel , ){
-  return  Expanded(
+Widget buildFutureTrip(BuildContext context, TripModel tripModel ,Color colorofText ){
+  return  Padding(
+    padding: const EdgeInsets.all(10.0),
     child: Row(
+      mainAxisSize: MainAxisSize.max,
 
         children: [
 
-        Row(children: [
-          // bta3 elsora
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-            CircleAvatar(
-              radius: 30,
-              backgroundImage:
-            NetworkImage('${tripModel.imageOfDriver}')
-            ),
-            SizedBox(height: 5,),
-            Text('${tripModel.DriverName}')
-          ],),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+          CircleAvatar(
+            radius: 30,
+            backgroundImage:
+          NetworkImage('${tripModel.imageOfDriver}')
+          ),
+          SizedBox(height: 5,),
+          Text('${tripModel.DriverName}', style: TextStyle(color: colorofText),)
+        ],),
 
-          // bta3 el description
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-            Container(
-              width: MediaQuery.of(context).size.width*.4,
+        // bta3 el description
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+          Container(
+            width: MediaQuery.of(context).size.width*.3,
 
-               child: Text('${tripModel.tripDescription == null ? "No Description found " : tripModel.tripDescription}'
-                 , style: TextStyle(fontSize: 10,
-                 ), maxLines: 2,
-                 overflow: TextOverflow.ellipsis,
-               ),),
+             child: Text('${tripModel.tripDescription == null ? "No Description found " : tripModel.tripDescription}'
+               , style: TextStyle(fontSize: 10,color: colorofText
+               ), maxLines: 2,
+               overflow: TextOverflow.ellipsis,
+             ),),
 SizedBox(height: 5,),
-            Text('\$${tripModel.tripCost}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10), )
-          ],),
+          Text('\$${tripModel.tripCost}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: colorofText), )
+        ],),
 
-         Column(
-           crossAxisAlignment: CrossAxisAlignment.end,
+         Expanded(
+           child: Column(
+         crossAxisAlignment: CrossAxisAlignment.end,
 
-mainAxisAlignment: MainAxisAlignment.spaceBetween,
-mainAxisSize: MainAxisSize.min,
+mainAxisAlignment: MainAxisAlignment.center,
+
 
            children: [
-           Text('${DateFormat.yMMMd().add_jm().format(DateTime.now())}', style: TextStyle(fontSize: 8)),
-           Text('${tripModel.distance}', style :Theme.of(context).textTheme.caption!.copyWith(fontSize: 15)),
-           Text('From ${DateFormat.yMMMd().add_jm().format(tripModel.fromDate!.toDate())} '
-               'To ${DateFormat.yMMMd().add_jm().format(tripModel.toDate!.toDate())}',
+           Row(mainAxisAlignment: MainAxisAlignment.center,
+             children: [
+               Text('${DateFormat.yMMMd().format(DateTime.now())}', style: TextStyle(fontSize: 15, color: colorofText)),
+             ],
+           ),
+           Row(
+               mainAxisAlignment: MainAxisAlignment.center,
+             children: [
+               Text('${tripModel.distance}', style :Theme.of(context).textTheme.caption!.copyWith(fontSize: 15, color: colorofText)),
+             ],
+           ),
+           Row(
+               mainAxisAlignment: MainAxisAlignment.center,
+             children: [
+               Text('From ${DateFormat.yMMMd().format(tripModel.fromDate!.toDate())} '
+                   'To ${DateFormat.yMMMd().format(tripModel.toDate!.toDate())}',
 
-             style: TextStyle(fontSize: 8),)
-         ],)
-        ],),
+                 style: TextStyle(fontSize: 10,color: colorofText ),),
+             ],
+           )
+           ],),
+         ),
 SizedBox(height: 10,)
       ],),
   );
