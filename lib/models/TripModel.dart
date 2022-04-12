@@ -14,9 +14,10 @@ class TripModel{
   String? distance;
   String? tripDescription;
   String?tripCost;
+  List?wordIndex;
   TripModel({this.tripId, this.userid,this.driverid,this.fromDate,this.toDate,this.fromPlace,this.toPlace, this.imageOfDriver, this.DriverName,
   this.distance,
-    this.tripDescription, this.tripCost
+    this.tripDescription, this.tripCost, this.wordIndex
 
   });
   TripModel.fromFirebase( Map<String , dynamic> fromfirebase){
@@ -32,6 +33,7 @@ class TripModel{
     distance= fromfirebase['distance'];
     tripDescription = fromfirebase['tripDescription'];
 tripCost = fromfirebase['tripCost'];
+    wordIndex= fromfirebase['wordIndex'];
   }
     Map<String, dynamic> toFirebase(){
       return{
@@ -46,7 +48,8 @@ tripCost = fromfirebase['tripCost'];
         'DriverName':DriverName,
         'distance':distance,
         'tripDescription':tripDescription,
-        'tripCost':tripCost
+        'tripCost':tripCost,
+        'wordIndex' :wordIndex
 
 
       };

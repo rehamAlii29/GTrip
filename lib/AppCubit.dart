@@ -86,7 +86,7 @@ class AppCubit extends Cubit<AppStates> {
     MoreScreen()
 
   ];
-
+TextEditingController searchbox = TextEditingController();
   toggelbetweenNavbarScreens(int selectedIndex) {
     currentIndex = selectedIndex;
     if(selectedIndex == 1){
@@ -94,6 +94,11 @@ class AppCubit extends Cubit<AppStates> {
       onGoiningTrips = [];
       futerTrips=[];
       getFinished();
+    }
+    if(selectedIndex == 1){
+      searchResult=[];
+      isSearch=false;
+      searchbox.clear();
     }
     emit(BottomNavBarChangingSuccess());
   }
@@ -390,14 +395,53 @@ emit(GetTripSuccess());
   });
 
 }
-List <TripModel>Result = [];
+List <TripModel> searchResult = [];
+  CollectionReference trips= FirebaseFirestore.instance.collection('Trips') ;
 //
-searchdateResult( String? keyofsearch)async{
-  FirebaseFirestore.instance.collection('Trips').where('fromDate', isEqualTo: keyofsearch).get().
-  then((value) {
+ searchingProgress( String? keyofsearch)async{
 
+  emit(SearchLoading());
+/*  FirebaseFirestore.instance.collection('Trips').where('fromDate', isEqualTo: keyofsearch).get().
+  then((value) {
+    for(var element in value.docs){
+      searchResult.add(TripModel.fromFirebase(element.data()));
+    }
+
+  });*/
+   FirebaseFirestore.instance.collection('Trips').
+  where('wordIndex',arrayContains: keyofsearch ).where('userid', isEqualTo: userid).get().then((event) {
+    for(var element in event.docs){
+   
+      searchResult.add(TripModel.fromFirebase(element.data()));
+
+
+
+    }
   });
-  
+
+
+   emit(SearchSuccess());
+
 }
+getafteredittingcomplete(String? keyofsearch)async{
+emit(SearchLoading());
+  FirebaseFirestore.instance.collection('Trips').
+  where('DriverName',isEqualTo: keyofsearch ).where('userid', isEqualTo: userid).get().then((event) {
+    for(var element in event.docs){
+
+      searchResult.add(TripModel.fromFirebase(element.data()));
+
+
+
+    }
+  });
+emit(SearchSuccess());
+
+}
+bool isSearch=false;
+ convertsearchtoclose(){
+   isSearch =! isSearch;
+emit(changeIconsearch());
+ }
 
 }

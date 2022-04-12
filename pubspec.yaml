@@ -60,6 +60,7 @@ dependencies:
   intl: ^0.17.0
   flutter_svg: ^1.0.3
   adaptive_scrollbar: ^2.1.2
+  firebase_database: ^9.0.10
 
 dev_dependencies:
   flutter_test:

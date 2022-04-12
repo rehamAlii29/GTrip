@@ -82,5 +82,8 @@ class UpdateNamaemailphoneSuccess extends AppStates{}
 class AddTripSuccess extends AppStates{}
 class GetTriploading extends AppStates{}
 class GetTripSuccess extends AppStates{}
+// search
 class SearchSuccess extends AppStates{}
 class SearchLoading extends AppStates{}
+//
+class changeIconsearch extends AppStates{}
