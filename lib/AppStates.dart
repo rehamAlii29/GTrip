@@ -29,6 +29,7 @@ class UserSignupErrorState extends AppStates{
  final String?onError;
   UserSignupErrorState(this.onError);
 }
+class UserSignupSuccessState extends AppStates{}
 
 class UserLoginSuccessState extends AppStates{
   String?userid;

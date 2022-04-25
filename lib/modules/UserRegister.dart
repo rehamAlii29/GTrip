@@ -6,6 +6,7 @@ import 'package:gtrip/AppCubit.dart';
 import 'package:gtrip/AppStates.dart';
 import 'package:gtrip/modules/LoginUser.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gtrip/modules/MoreScreens.dart/MoreScreen.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:motion_toast/resources/arrays.dart';
 class UserRegister extends StatefulWidget {
@@ -38,6 +39,9 @@ class _UserRegisterState extends State<UserRegister> {
             ),),
           iconType: ICON_TYPE.materialDesign,
         ).show(context);
+      }
+      if(State is UserSignupSuccessState ){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MoreScreen()));
       }
     },
       builder: (context , state){
