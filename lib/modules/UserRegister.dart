@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gtrip/AppCubit.dart';
 import 'package:gtrip/AppStates.dart';
+import 'package:gtrip/modules/HomeScreen.dart';
 import 'package:gtrip/modules/LoginUser.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gtrip/modules/MoreScreens.dart/MoreScreen.dart';
+import 'package:gtrip/modules/MoreScreens.dart/Personalinfo.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:motion_toast/resources/arrays.dart';
 class UserRegister extends StatefulWidget {
@@ -41,7 +43,7 @@ class _UserRegisterState extends State<UserRegister> {
         ).show(context);
       }
       if(State is UserSignupSuccessState ){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MoreScreen()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>PersonalInfo()));
       }
     },
       builder: (context , state){
@@ -191,6 +193,7 @@ if(formKey.currentState!.validate()){
       username: username.text,
     password: password.text
      );
+  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
   print(fullphoneNumber);
 }
                   }, child: Text("Sign Up", style: TextStyle(color: Colors.white, fontSize: 16,fontWeight: FontWeight.bold),),
